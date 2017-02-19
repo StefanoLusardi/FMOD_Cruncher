@@ -145,6 +145,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BitCrusher.hpp" />
+    <ClInclude Include="Distortion.hpp" />
+    <ClInclude Include="Gain.hpp" />
+    <ClInclude Include="iDspInterface.hpp" />
+    <ClInclude Include="Noise.hpp" />
+    <ClInclude Include="Plugin.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BitCrusher.cpp" />
+    <ClCompile Include="Distortion.cpp" />
+    <ClCompile Include="Gain.cpp" />
+    <ClCompile Include="Noise.cpp" />
+    <ClCompile Include="Plugin.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

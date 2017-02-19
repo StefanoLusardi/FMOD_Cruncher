@@ -13,5 +13,54 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Gain">
+      <UniqueIdentifier>{74693273-8858-4aee-85ba-6e031252f8d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Distortion">
+      <UniqueIdentifier>{33eb4159-cd11-448a-a47e-142f40e7770d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Bit Crusher">
+      <UniqueIdentifier>{eaacf92c-f8c2-4a84-b96f-3cf1bb3e5161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Noise">
+      <UniqueIdentifier>{85219886-3fe8-4563-994f-15ae0ed1a89a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Plugin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gain.hpp">
+      <Filter>Gain</Filter>
+    </ClInclude>
+    <ClInclude Include="Distortion.hpp">
+      <Filter>Distortion</Filter>
+    </ClInclude>
+    <ClInclude Include="BitCrusher.hpp">
+      <Filter>Bit Crusher</Filter>
+    </ClInclude>
+    <ClInclude Include="Noise.hpp">
+      <Filter>Noise</Filter>
+    </ClInclude>
+    <ClInclude Include="iDspInterface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Plugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Distortion.cpp">
+      <Filter>Distortion</Filter>
+    </ClCompile>
+    <ClCompile Include="Gain.cpp">
+      <Filter>Gain</Filter>
+    </ClCompile>
+    <ClCompile Include="BitCrusher.cpp">
+      <Filter>Bit Crusher</Filter>
+    </ClCompile>
+    <ClCompile Include="Noise.cpp">
+      <Filter>Noise</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
