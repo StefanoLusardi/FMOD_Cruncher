@@ -1,12 +1,14 @@
 #include "Gain.hpp"
 
+
 Gain::Gain()
 {
 	mTargetGain = DECIBELS_TO_LINEAR(0.0f);
 	Reset();
 }
 
-void Gain::Process(float *inbuffer, float *outbuffer, unsigned int length, int channels)
+
+void Gain::Process(float* inbuffer, float* outbuffer, unsigned int length, int channels)
 {
 	if (mInterpolationSamples)
 	{
@@ -19,7 +21,8 @@ void Gain::Process(float *inbuffer, float *outbuffer, unsigned int length, int c
 				for (int i = 0; i < channels; ++i)
 				{
 					//*outbuffer++ = *inbuffer++ * (mCurrentGain);
-					ApplyDsp(*outbuffer++, *inbuffer++, &mCurrentGain);
+					params.gain = mCurrentGain;
+					ApplyDsp(*outbuffer++, *inbuffer++, &params);
 				}
 			}
 			else
@@ -35,14 +38,19 @@ void Gain::Process(float *inbuffer, float *outbuffer, unsigned int length, int c
 	while (samples--)
 	{
 		//*outbuffer++ = *inbuffer++ * (mCurrentGain);
-		ApplyDsp(*outbuffer++, *inbuffer++, &mCurrentGain);
+		params.gain = mCurrentGain;
+		ApplyDsp(*outbuffer++, *inbuffer++, &params);
 	}
 }
 
-inline void Gain::ApplyDsp(float inSample, float outSample, float * gain)
+
+
+inline void Gain::ApplyDsp(float inSample, float outSample, GainParams* params)
 {
-	outSample = inSample * (*gain);
+	outSample = inSample * (params->gain);
 }
+
+
 
 void Gain::Reset()
 {
@@ -50,11 +58,13 @@ void Gain::Reset()
 	mInterpolationSamples = 0;
 }
 
+
 void Gain::setAmount(float gain)
 {
 	mTargetGain = DECIBELS_TO_LINEAR(gain);
 	mInterpolationSamples = INTERPOLATION_SAMPLES;
 }
+
 
 float Gain::getAmount()
 {

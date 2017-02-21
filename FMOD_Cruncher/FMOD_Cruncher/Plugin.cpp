@@ -76,7 +76,7 @@ void Plugin::getParameterFloat(int index, float * value, char * valuestr)
 
 /*        FMOD CALLBACK INTERFACE        */
 
-FMOD_RESULT F_CALLBACK createCallback(FMOD_DSP_STATE *dsp_state)
+FMOD_RESULT F_CALLBACK CreateCallback(FMOD_DSP_STATE *dsp_state)
 {
 	Plugin *dsp = (Plugin *)FMOD_DSP_STATE_MEMALLOC(dsp_state, sizeof(Plugin), FMOD_MEMORY_NORMAL, "Plugin");
 	if (!dsp)
@@ -86,21 +86,21 @@ FMOD_RESULT F_CALLBACK createCallback(FMOD_DSP_STATE *dsp_state)
 	return FMOD_OK;
 }
 
-FMOD_RESULT F_CALLBACK resetCallback(FMOD_DSP_STATE *dsp_state)
+FMOD_RESULT F_CALLBACK ResetCallback(FMOD_DSP_STATE *dsp_state)
 {
 	Plugin *dsp = (Plugin *)dsp_state->plugindata;
 	dsp->Reset();
 	return FMOD_OK;
 }
 
-FMOD_RESULT F_CALLBACK releaseCallback(FMOD_DSP_STATE *dsp_state)
+FMOD_RESULT F_CALLBACK ReleaseCallback(FMOD_DSP_STATE *dsp_state)
 {
 	Plugin *dsp = (Plugin *)dsp_state->plugindata;
 	FMOD_DSP_STATE_MEMFREE(dsp_state, dsp, FMOD_MEMORY_NORMAL, "Plugin");
 	return FMOD_OK;
 }
 
-FMOD_RESULT F_CALLBACK shouldIProcessCallback(FMOD_DSP_STATE *dsp_state, FMOD_BOOL inputsidle, unsigned int length, FMOD_CHANNELMASK inmask, int inchannels, FMOD_SPEAKERMODE speakermode)
+FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE *dsp_state, FMOD_BOOL inputsidle, unsigned int length, FMOD_CHANNELMASK inmask, int inchannels, FMOD_SPEAKERMODE speakermode)
 {
 	Plugin *dsp = (Plugin *)dsp_state->plugindata;
 	if (inputsidle)
@@ -108,42 +108,42 @@ FMOD_RESULT F_CALLBACK shouldIProcessCallback(FMOD_DSP_STATE *dsp_state, FMOD_BO
 	return FMOD_OK;
 }
 
-FMOD_RESULT F_CALLBACK readCallback(FMOD_DSP_STATE *dsp_state, float *inbuffer, float *outbuffer, unsigned int length, int inchannels, int *outchannels)
+FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp_state, float *inbuffer, float *outbuffer, unsigned int length, int inchannels, int *outchannels)
 {
 	Plugin *dsp = (Plugin *)dsp_state->plugindata;
 	dsp->Process(inbuffer, outbuffer, length, inchannels);
 	return FMOD_OK;
 }
 
-FMOD_RESULT F_CALLBACK setParameterFloat(FMOD_DSP_STATE *dsp_state, int index, float value)
+FMOD_RESULT F_CALLBACK SetParameterFloat(FMOD_DSP_STATE *dsp_state, int index, float value)
 {
 	Plugin *dsp = (Plugin *)dsp_state->plugindata;
 	dsp->setParameterFloat(index, value);
 	return FMOD_OK;
 }
 
-FMOD_RESULT F_CALLBACK getParameterFloat(FMOD_DSP_STATE *dsp_state, int index, float *value, char *valuestr)
+FMOD_RESULT F_CALLBACK GetParameterFloat(FMOD_DSP_STATE *dsp_state, int index, float *value, char *valuestr)
 {
 	Plugin *dsp = (Plugin *)dsp_state->plugindata;
 	dsp->getParameterFloat(index, value, valuestr);
 	return FMOD_OK;
 }
 
-FMOD_RESULT F_CALLBACK sysRegister(FMOD_DSP_STATE * /*dsp_state*/)
+FMOD_RESULT F_CALLBACK SysRegister(FMOD_DSP_STATE * /*dsp_state*/)
 {
 	isRunning = true;
 	// called once for this type of dsp being loaded or registered (it is not per instance)
 	return FMOD_OK;
 }
 
-FMOD_RESULT F_CALLBACK sysDeregister(FMOD_DSP_STATE * /*dsp_state*/)
+FMOD_RESULT F_CALLBACK SysDeregister(FMOD_DSP_STATE * /*dsp_state*/)
 {
 	isRunning = false;
 	// called once for this type of dsp being unloaded or de-registered (it is not per instance)
 	return FMOD_OK;
 }
 
-FMOD_RESULT F_CALLBACK sysMix(FMOD_DSP_STATE * /*dsp_state*/, int /*stage*/)
+FMOD_RESULT F_CALLBACK SysMix(FMOD_DSP_STATE * /*dsp_state*/, int /*stage*/)
 {
 	// stage == 0 , before all dsps are processed/mixed, this callback is called once for this type.
 	// stage == 1 , after all dsps are processed/mixed, this callback is called once for this type.

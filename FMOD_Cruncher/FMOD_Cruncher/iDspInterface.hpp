@@ -10,13 +10,19 @@
 #define LINEAR_TO_DECIBELS(__linval__) ((__linval__ <= 0.0f) ? dB_MIN : 20.0f * log10f((float)__linval__))
 #define INTERPOLATION_SAMPLES 256
 
+template <typename P>
 class iDspInterface
 {
 public:
-	~iDspInterface() {};
-	virtual void ApplyDsp(float *inbuffer, float *outbuffer, float *params) = 0;
+	virtual ~iDspInterface() = 0 { };
+	virtual inline void ApplyDsp(float inSample, float outSample, P* params) = 0;
 	virtual void Process(float *inbuffer, float *outbuffer, unsigned int length, int channels) = 0;
 	virtual void Release() = 0;
 	virtual void Reset() = 0;
 };
 
+class DspParams
+{
+public:
+	virtual ~DspParams() = 0 { };
+};

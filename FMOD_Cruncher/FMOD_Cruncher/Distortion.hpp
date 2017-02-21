@@ -1,14 +1,7 @@
 #pragma once
-
-#include "iDspInterface.hpp"
-
-class Distortion : iDspInterface
+class Distortion
 {
 public:
 	Distortion();
-	float getAmount() { return mDistortion; };
-	void  setAmount(float distortion) { mDistortion = distortion; };
-
-private:
-	float mDistortion;
+	~Distortion();
 };

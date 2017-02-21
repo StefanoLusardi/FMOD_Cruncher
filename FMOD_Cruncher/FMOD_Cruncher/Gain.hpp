@@ -2,15 +2,21 @@
 
 #include "iDspInterface.hpp"
 
-class Gain : public iDspInterface
+struct GainParams : DspParams
+{
+	float gain;
+};
+
+class Gain : public iDspInterface<GainParams>
 {
 public:
 	Gain();
 	~Gain() {};
-	inline void ApplyDsp(float inSample, float outSample, float *gain);
-	void Process(float *inbuffer, float *outbuffer, unsigned int length, int channels);
-	void Reset();
-	void Release() {};
+
+	inline void ApplyDsp(float inSample, float outSample, GainParams* params) override;
+	void Process(float *inbuffer, float *outbuffer, unsigned int length, int channels) override;
+	void Reset() override;
+	void Release() override {};
 
 	float getAmount();
 	void  setAmount(float gain);
@@ -19,7 +25,7 @@ public:
 private:
 	float mCurrentGain;
 	float mTargetGain;
-	int mInterpolationSamples;
+	int   mInterpolationSamples;
+
+	GainParams params;
 };
-
-
