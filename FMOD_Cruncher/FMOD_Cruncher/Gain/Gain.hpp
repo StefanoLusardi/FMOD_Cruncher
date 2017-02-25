@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\sL Libs\iDspInterface.hpp"
+#include "..\..\..\sL_Libs\iDspInterface.hpp"
 
 struct GainParams : DspParams
 {
@@ -13,15 +13,16 @@ public:
 	Gain();
 	~Gain() {};
 
-	inline void ApplyDsp(float inSample, float outSample, GainParams* params) override;
-	inline void ApplyDsp(float inSample, float outSample, void* params) override;
-	void Process(float *inbuffer, float *outbuffer, unsigned int length, int channels) override;
-	void Reset() override;
+	virtual void ProcessAudioBuffer(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
+	virtual void ProcessAudioChannel(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
+	virtual inline float ProcessAudioSample(float inSample, GainParams* params, unsigned int channel = 0) override;
+	virtual inline float ProcessAudioSample(float inSample, void* params, unsigned int channel = 0) override;
+
 	void Release() override {};
+	void Reset() override;
 
 	float getGain();
 	void  setGain(float gain);
-
 
 private:
 	float mCurrentGain;

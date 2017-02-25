@@ -17,14 +17,15 @@ const float MIN_GAIN_PARAM = -80.0f;
 const float MAX_GAIN_PARAM = 0.0f;
 const float DFT_GAIN_PARAM = 0.0f;
 
-template <typename P>
+template <typename PARAMS>
 class iDspInterface
 {
 public:
 	virtual ~iDspInterface() = 0 { };
-	virtual inline void ApplyDsp(float inSample, float outSample, P* params) = 0;
-	virtual inline void ApplyDsp(float inSample, float outSample, void* params) = 0;
-	virtual void Process(float *inbuffer, float *outbuffer, unsigned int length, int channels) = 0;
+	virtual void ProcessAudioBuffer(float *inbuffer, float *outbuffer, unsigned int length, int channels) = 0;
+	virtual void ProcessAudioChannel(float *inbuffer, float *outbuffer, unsigned int length, int channels) = 0;
+	virtual inline float ProcessAudioSample(float inSample, PARAMS* params, unsigned int channel) = 0;
+	virtual inline float ProcessAudioSample(float inSample, void* params, unsigned int channel) = 0;
 	virtual void Release() = 0;
 	virtual void Reset() = 0;
 };

@@ -149,9 +149,9 @@
     <ClInclude Include="Distortion\Distortion.hpp" />
     <ClInclude Include="FMOD Callback Interface\FMOD_Callback_Interface.hpp" />
     <ClInclude Include="Gain\Gain.hpp" />
-    <ClInclude Include="sL Libs\iDspInterface.hpp" />
     <ClInclude Include="Noise\Noise.hpp" />
     <ClInclude Include="Plugin\Plugin.hpp" />
+    <ClInclude Include="Plugin\PluginUI.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitCrusher\BitCrusher.cpp" />

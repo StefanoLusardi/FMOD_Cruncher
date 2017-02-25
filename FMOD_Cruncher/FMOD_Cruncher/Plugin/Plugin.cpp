@@ -14,9 +14,9 @@ void Plugin::Release()
 	}
 }
 
-void Plugin::Process(float * inbuffer, float * outbuffer, unsigned int length, int channels)
+void Plugin::Process(float * inBuffer, float * outBuffer, unsigned int length, int channels)
 {
-	dspGain->Process(inbuffer, outbuffer, length, channels);
+	dspGain->ProcessAudioBuffer(inBuffer, outBuffer, length, channels);
 }
 
 void Plugin::Reset()
@@ -31,7 +31,7 @@ void Plugin::setParameterFloat(int index, float value)
 {
 	switch (index)
 	{
-	case UI_PARAM_GAIN:
+	case static_cast<int>(UiParams::UI_PARAM_GAIN) :
 		if (dspGain)
 			//((Gain *)dspGain)->setGain(value);
 			(static_cast<Gain *>(dspGain))->setGain(value);
@@ -43,9 +43,11 @@ void Plugin::getParameterFloat(int index, float * value, char * valuestr)
 {
 	switch (index)
 	{
-	case UI_PARAM_GAIN:
-		*value = ((Gain *)dspGain)->getGain();
-		if (valuestr) sprintf(valuestr, "%.1f dB", ((Gain *)dspGain)->getGain());
+	case static_cast<int>(UiParams::UI_PARAM_GAIN) :
+		//*value = ((Gain *)dspGain)->getGain();
+		//if (valuestr) sprintf(valuestr, "%.1f dB", ((Gain *)dspGain)->getGain());
+		*value = (static_cast<Gain *>(dspGain))->getGain();
+		if (valuestr) sprintf(valuestr, "%.1f dB", (static_cast<Gain *>(dspGain))->getGain());
 		break;
 	}
 }

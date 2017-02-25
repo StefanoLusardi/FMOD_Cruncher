@@ -1,4 +1,3 @@
-
 #include "FMOD_Callback_Interface.hpp"
 
 
@@ -40,10 +39,10 @@ FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE *dsp_state, FMOD_BO
 	return FMOD_OK;
 }
 
-FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp_state, float *inbuffer, float *outbuffer, unsigned int length, int inchannels, int *outchannels)
+FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp_state, float *inBuffer, float *outBuffer, unsigned int length, int inchannels, int *outchannels)
 {
 	Plugin *dsp = (Plugin *)dsp_state->plugindata;
-	dsp->Process(inbuffer, outbuffer, length, inchannels);
+	dsp->Process(inBuffer, outBuffer, length, inchannels);
 	return FMOD_OK;
 }
 

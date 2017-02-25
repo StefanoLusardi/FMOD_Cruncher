@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Gain">
       <UniqueIdentifier>{74693273-8858-4aee-85ba-6e031252f8d0}</UniqueIdentifier>
     </Filter>
@@ -21,6 +13,12 @@
     <Filter Include="Noise">
       <UniqueIdentifier>{85219886-3fe8-4563-994f-15ae0ed1a89a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FMOD Callback Interface">
+      <UniqueIdentifier>{4fa8ea62-9600-4dce-9108-3b579fb29067}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{ac4b5e70-03c4-4e33-907e-fb153a8e4d9a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BitCrusher\BitCrusher.hpp">
@@ -29,20 +27,20 @@
     <ClInclude Include="Distortion\Distortion.hpp">
       <Filter>Distortion</Filter>
     </ClInclude>
-    <ClInclude Include="FMOD Callback Interface\FMOD_Callback_Interface.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Gain\Gain.hpp">
       <Filter>Gain</Filter>
-    </ClInclude>
-    <ClInclude Include="sL Libs\iDspInterface.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Noise\Noise.hpp">
       <Filter>Noise</Filter>
     </ClInclude>
+    <ClInclude Include="FMOD Callback Interface\FMOD_Callback_Interface.hpp">
+      <Filter>FMOD Callback Interface</Filter>
+    </ClInclude>
     <ClInclude Include="Plugin\Plugin.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="Plugin\PluginUI.hpp">
+      <Filter>Plugin</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -52,17 +50,17 @@
     <ClCompile Include="Distortion\Distortion.cpp">
       <Filter>Distortion</Filter>
     </ClCompile>
-    <ClCompile Include="FMOD Callback Interface\FMOD_Callback_Interface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Gain\Gain.cpp">
       <Filter>Gain</Filter>
     </ClCompile>
     <ClCompile Include="Noise\Noise.cpp">
       <Filter>Noise</Filter>
     </ClCompile>
+    <ClCompile Include="FMOD Callback Interface\FMOD_Callback_Interface.cpp">
+      <Filter>FMOD Callback Interface</Filter>
+    </ClCompile>
     <ClCompile Include="Plugin\Plugin.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Plugin</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
