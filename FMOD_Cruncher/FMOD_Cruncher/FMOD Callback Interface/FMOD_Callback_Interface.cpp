@@ -1,80 +1,6 @@
-#include "Plugin.hpp"
 
-void Plugin::Create()
-{
-	dspGain = new Gain();
-}
+#include "FMOD_Callback_Interface.hpp"
 
-void Plugin::Release()
-{
-	if (dspGain)
-	{
-		dspGain->Release();
-		delete dspGain;
-	}
-}
-
-void Plugin::Process(float * inbuffer, float * outbuffer, unsigned int length, int channels)
-{
-	dspGain->Process(inbuffer, outbuffer, length, channels);
-}
-
-void Plugin::Reset()
-{
-	if (dspGain)
-		delete dspGain;
-
-	dspGain = new Gain();
-}
-
-void Plugin::setParameterFloat(int index, float value)
-{
-	switch (index)
-	{
-	case UI_PARAM_GAIN:
-		if (dspGain)
-			((Gain *)dspGain)->setAmount(value);
-		break;
-	}
-}
-
-void Plugin::getParameterFloat(int index, float * value, char * valuestr)
-{
-	switch (index)
-	{
-	case UI_PARAM_GAIN:
-		*value = ((Gain *)dspGain)->getAmount();
-		if (valuestr) sprintf(valuestr, "%.1f dB", ((Gain *)dspGain)->getAmount());
-		break;
-	}
-}
-
-//void Plugin::setParameterInt(int index, int value)
-//{
-//}
-//
-//void Plugin::getParameterInt(int index, int * value, char * valuestr)
-//{
-//}
-//
-//void Plugin::setParameterBool(int index, bool value)
-//{
-//}
-//
-//void Plugin::getParameterBool(int index, bool * value, char * valuestr)
-//{
-//}
-//
-//void Plugin::setParameterData(int index, int value)
-//{
-//}
-//
-//void Plugin::getParameterData(int index, int * value, char * valuestr)
-//{
-//}
-
-
-/*        FMOD CALLBACK INTERFACE        */
 
 FMOD_RESULT F_CALLBACK CreateCallback(FMOD_DSP_STATE *dsp_state)
 {
@@ -100,6 +26,12 @@ FMOD_RESULT F_CALLBACK ReleaseCallback(FMOD_DSP_STATE *dsp_state)
 	return FMOD_OK;
 }
 
+/* TODO: replace ShouldIProcessCallback and ReadCallback
+*	with FMOD_DSP_PROCESS_CALLBACK to save CPU and introduce
+*	plugin bypass button.
+*/
+/*==========================================================================================================================================================*/
+
 FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE *dsp_state, FMOD_BOOL inputsidle, unsigned int length, FMOD_CHANNELMASK inmask, int inchannels, FMOD_SPEAKERMODE speakermode)
 {
 	Plugin *dsp = (Plugin *)dsp_state->plugindata;
@@ -114,6 +46,8 @@ FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp_state, float *inbuffer, 
 	dsp->Process(inbuffer, outbuffer, length, inchannels);
 	return FMOD_OK;
 }
+
+/*==========================================================================================================================================================*/
 
 FMOD_RESULT F_CALLBACK SetParameterFloat(FMOD_DSP_STATE *dsp_state, int index, float value)
 {
@@ -131,15 +65,15 @@ FMOD_RESULT F_CALLBACK GetParameterFloat(FMOD_DSP_STATE *dsp_state, int index, f
 
 FMOD_RESULT F_CALLBACK SysRegister(FMOD_DSP_STATE * /*dsp_state*/)
 {
-	isRunning = true;
 	// called once for this type of dsp being loaded or registered (it is not per instance)
+	isRunning = true;
 	return FMOD_OK;
 }
 
 FMOD_RESULT F_CALLBACK SysDeregister(FMOD_DSP_STATE * /*dsp_state*/)
 {
-	isRunning = false;
 	// called once for this type of dsp being unloaded or de-registered (it is not per instance)
+	isRunning = false;
 	return FMOD_OK;
 }
 
@@ -149,6 +83,3 @@ FMOD_RESULT F_CALLBACK SysMix(FMOD_DSP_STATE * /*dsp_state*/, int /*stage*/)
 	// stage == 1 , after all dsps are processed/mixed, this callback is called once for this type.
 	return FMOD_OK;
 }
-
-
-

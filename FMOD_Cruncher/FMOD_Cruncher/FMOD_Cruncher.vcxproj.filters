@@ -23,40 +23,46 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Plugin.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Gain.hpp">
-      <Filter>Gain</Filter>
-    </ClInclude>
-    <ClInclude Include="Distortion.hpp">
-      <Filter>Distortion</Filter>
-    </ClInclude>
-    <ClInclude Include="BitCrusher.hpp">
+    <ClInclude Include="BitCrusher\BitCrusher.hpp">
       <Filter>Bit Crusher</Filter>
     </ClInclude>
-    <ClInclude Include="Noise.hpp">
+    <ClInclude Include="Distortion\Distortion.hpp">
+      <Filter>Distortion</Filter>
+    </ClInclude>
+    <ClInclude Include="FMOD Callback Interface\FMOD_Callback_Interface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gain\Gain.hpp">
+      <Filter>Gain</Filter>
+    </ClInclude>
+    <ClInclude Include="sL Libs\iDspInterface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Noise\Noise.hpp">
       <Filter>Noise</Filter>
     </ClInclude>
-    <ClInclude Include="iDspInterface.hpp">
+    <ClInclude Include="Plugin\Plugin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Plugin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Distortion.cpp">
-      <Filter>Distortion</Filter>
-    </ClCompile>
-    <ClCompile Include="Gain.cpp">
-      <Filter>Gain</Filter>
-    </ClCompile>
-    <ClCompile Include="BitCrusher.cpp">
+    <ClCompile Include="BitCrusher\BitCrusher.cpp">
       <Filter>Bit Crusher</Filter>
     </ClCompile>
-    <ClCompile Include="Noise.cpp">
+    <ClCompile Include="Distortion\Distortion.cpp">
+      <Filter>Distortion</Filter>
+    </ClCompile>
+    <ClCompile Include="FMOD Callback Interface\FMOD_Callback_Interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gain\Gain.cpp">
+      <Filter>Gain</Filter>
+    </ClCompile>
+    <ClCompile Include="Noise\Noise.cpp">
       <Filter>Noise</Filter>
+    </ClCompile>
+    <ClCompile Include="Plugin\Plugin.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -145,19 +145,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BitCrusher.hpp" />
-    <ClInclude Include="Distortion.hpp" />
-    <ClInclude Include="Gain.hpp" />
-    <ClInclude Include="iDspInterface.hpp" />
-    <ClInclude Include="Noise.hpp" />
-    <ClInclude Include="Plugin.hpp" />
+    <ClInclude Include="BitCrusher\BitCrusher.hpp" />
+    <ClInclude Include="Distortion\Distortion.hpp" />
+    <ClInclude Include="FMOD Callback Interface\FMOD_Callback_Interface.hpp" />
+    <ClInclude Include="Gain\Gain.hpp" />
+    <ClInclude Include="sL Libs\iDspInterface.hpp" />
+    <ClInclude Include="Noise\Noise.hpp" />
+    <ClInclude Include="Plugin\Plugin.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BitCrusher.cpp" />
-    <ClCompile Include="Distortion.cpp" />
-    <ClCompile Include="Gain.cpp" />
-    <ClCompile Include="Noise.cpp" />
-    <ClCompile Include="Plugin.cpp" />
+    <ClCompile Include="BitCrusher\BitCrusher.cpp" />
+    <ClCompile Include="Distortion\Distortion.cpp" />
+    <ClCompile Include="FMOD Callback Interface\FMOD_Callback_Interface.cpp" />
+    <ClCompile Include="Gain\Gain.cpp" />
+    <ClCompile Include="Noise\Noise.cpp" />
+    <ClCompile Include="Plugin\Plugin.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
