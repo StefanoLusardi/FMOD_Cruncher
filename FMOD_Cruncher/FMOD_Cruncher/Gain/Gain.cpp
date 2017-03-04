@@ -50,7 +50,7 @@ void Gain::ProcessAudioChannel(float * inBuffer, float * outBuffer, unsigned int
 {
 	for (unsigned int sample = 0; sample < length; sample++)
 	{
-		for (unsigned int ch = 0; ch < (unsigned int)channels; ch++)
+		for (unsigned int ch = 0; ch < static_cast<unsigned int>(channels); ch++)
 		{
 			*outBuffer++ = ProcessAudioSample(*inBuffer++, &params, ch);
 		}

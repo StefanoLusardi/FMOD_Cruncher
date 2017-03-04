@@ -2,9 +2,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#include "..\..\..\FMOD_Lib\fmod.hpp"
-#include "..\Plugin\Plugin.hpp"
-//#include "..\Plugin\PluginUI.hpp"
+#include "../Plugin/Plugin.hpp"
 
 extern "C"
 {
@@ -25,19 +23,6 @@ FMOD_RESULT F_CALLBACK GetParameterFloat(FMOD_DSP_STATE *dsp, int index, float *
 FMOD_RESULT F_CALLBACK SysRegister(FMOD_DSP_STATE *dsp_state);
 FMOD_RESULT F_CALLBACK SysDeregister(FMOD_DSP_STATE *dsp_state);
 FMOD_RESULT F_CALLBACK SysMix(FMOD_DSP_STATE *dsp_state, int stage);
-
-// TODO: move this into PluginUI.hpp
-FMOD_DSP_PARAMETER_DESC *pluginPrameters[static_cast<int>(UiParams::PLUGIN_NUM_PARAMS)] =
-{
-	&p_gain
-	//&p_noiseAmp,
-	//&p_bitDepth,
-	//&p_decimation,
-	//&p_cutoff,
-	//&p_resonance,
-	//&p_distortion,
-	//&p_bypass
-};
 
 FMOD_DSP_DESCRIPTION pluginDescription =
 {
@@ -69,8 +54,6 @@ FMOD_DSP_DESCRIPTION pluginDescription =
 	SysMix                   // FMOD_DSP_SYSTEM_MIX_CALLBACK        sys_mix;
 };
 
-
-// TODO: move this into PluginUI.hpp
 extern "C"
 {
 	F_EXPORT FMOD_DSP_DESCRIPTION* F_CALL FMODGetDSPDescription()
@@ -81,14 +64,23 @@ extern "C"
 		// GAIN IN
 		FMOD_DSP_INIT_PARAMDESC_FLOAT_WITH_MAPPING(
 			p_gain,
-			"Gain In",
+			"GainIn",
 			"dB",
 			"Gain in dB. -80 to 0. Default = 0",
-			DFT_GAIN_PARAM,
+			DEFAULT_GAIN_PARAM,
 			gain_dB_values,
 			gain_ui_values);
 
 		// NOISE AMP
+		FMOD_DSP_INIT_PARAMDESC_FLOAT_WITH_MAPPING(
+			p_noiseAmp,
+			"Noise",
+			"dB",
+			"Noise Level in dB. -80 to 0. Default = -80",
+			dB_MIN,
+			gain_dB_values,
+			gain_ui_values);
+
 		// BIT DEPTH
 		// DECIMATION
 		// CUTOFF

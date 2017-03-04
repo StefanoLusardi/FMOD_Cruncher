@@ -13,14 +13,14 @@ FMOD_RESULT F_CALLBACK CreateCallback(FMOD_DSP_STATE *dsp_state)
 
 FMOD_RESULT F_CALLBACK ResetCallback(FMOD_DSP_STATE *dsp_state)
 {
-	Plugin *dsp = (Plugin *)dsp_state->plugindata;
+	Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
 	dsp->Reset();
 	return FMOD_OK;
 }
 
 FMOD_RESULT F_CALLBACK ReleaseCallback(FMOD_DSP_STATE *dsp_state)
 {
-	Plugin *dsp = (Plugin *)dsp_state->plugindata;
+	Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
 	FMOD_DSP_STATE_MEMFREE(dsp_state, dsp, FMOD_MEMORY_NORMAL, "Plugin");
 	return FMOD_OK;
 }
@@ -33,7 +33,7 @@ FMOD_RESULT F_CALLBACK ReleaseCallback(FMOD_DSP_STATE *dsp_state)
 
 FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE *dsp_state, FMOD_BOOL inputsidle, unsigned int length, FMOD_CHANNELMASK inmask, int inchannels, FMOD_SPEAKERMODE speakermode)
 {
-	Plugin *dsp = (Plugin *)dsp_state->plugindata;
+	Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
 	if (inputsidle)
 		return FMOD_ERR_DSP_DONTPROCESS;
 	return FMOD_OK;
@@ -41,7 +41,7 @@ FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE *dsp_state, FMOD_BO
 
 FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp_state, float *inBuffer, float *outBuffer, unsigned int length, int inchannels, int *outchannels)
 {
-	Plugin *dsp = (Plugin *)dsp_state->plugindata;
+	Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
 	dsp->Process(inBuffer, outBuffer, length, inchannels);
 	return FMOD_OK;
 }
@@ -50,14 +50,14 @@ FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp_state, float *inBuffer, 
 
 FMOD_RESULT F_CALLBACK SetParameterFloat(FMOD_DSP_STATE *dsp_state, int index, float value)
 {
-	Plugin *dsp = (Plugin *)dsp_state->plugindata;
+	Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
 	dsp->setParameterFloat(index, value);
 	return FMOD_OK;
 }
 
 FMOD_RESULT F_CALLBACK GetParameterFloat(FMOD_DSP_STATE *dsp_state, int index, float *value, char *valuestr)
 {
-	Plugin *dsp = (Plugin *)dsp_state->plugindata;
+	Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
 	dsp->getParameterFloat(index, value, valuestr);
 	return FMOD_OK;
 }

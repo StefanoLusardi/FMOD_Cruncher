@@ -2,7 +2,8 @@
 
 void Plugin::Create()
 {
-	dspGain = new Gain();
+	dspGain  = new Gain();
+	dspNoise = new Noise();
 }
 
 void Plugin::Release()
@@ -12,11 +13,18 @@ void Plugin::Release()
 		dspGain->Release();
 		delete dspGain;
 	}
+
+	if (dspNoise)
+	{
+		dspNoise->Release();
+		delete dspNoise;
+	}
 }
 
 void Plugin::Process(float * inBuffer, float * outBuffer, unsigned int length, int channels)
 {
-	dspGain->ProcessAudioBuffer(inBuffer, outBuffer, length, channels);
+	dspGain ->ProcessAudioBuffer(inBuffer, outBuffer, length, channels);
+	dspNoise->ProcessAudioBuffer(inBuffer, outBuffer, length, channels);
 }
 
 void Plugin::Reset()
@@ -24,7 +32,8 @@ void Plugin::Reset()
 	if (dspGain)
 		delete dspGain;
 
-	dspGain = new Gain();
+	dspGain  = new Gain();
+	dspNoise = new Noise();
 }
 
 void Plugin::setParameterFloat(int index, float value)
@@ -33,8 +42,15 @@ void Plugin::setParameterFloat(int index, float value)
 	{
 	case static_cast<int>(UiParams::UI_PARAM_GAIN) :
 		if (dspGain)
-			//((Gain *)dspGain)->setGain(value);
-			(static_cast<Gain *>(dspGain))->setGain(value);
+			(static_cast<Gain*>(dspGain))->setGain(value);
+		break;
+
+	case static_cast<int>(UiParams::UI_PARAM_NOISE_AMP) :
+		if (dspNoise)
+			(static_cast<Noise*>(dspNoise))->setAmp(value);
+		break;
+
+	default: 
 		break;
 	}
 }
@@ -44,10 +60,18 @@ void Plugin::getParameterFloat(int index, float * value, char * valuestr)
 	switch (index)
 	{
 	case static_cast<int>(UiParams::UI_PARAM_GAIN) :
-		//*value = ((Gain *)dspGain)->getGain();
-		//if (valuestr) sprintf(valuestr, "%.1f dB", ((Gain *)dspGain)->getGain());
-		*value = (static_cast<Gain *>(dspGain))->getGain();
-		if (valuestr) sprintf(valuestr, "%.1f dB", (static_cast<Gain *>(dspGain))->getGain());
+		*value = (static_cast<Gain*>(dspGain))->getGain();
+		if (valuestr) 
+			sprintf(valuestr, "%.1f dB", (static_cast<Gain *>(dspGain))->getGain());
+		break;
+
+	case static_cast<int>(UiParams::UI_PARAM_NOISE_AMP) :
+		*value = (static_cast<Noise*>(dspNoise))->getAmp();
+		if (valuestr)
+			sprintf(valuestr, "%.1f dB", (static_cast<Noise*>(dspNoise))->getAmp());
+		break;
+
+	default:
 		break;
 	}
 }

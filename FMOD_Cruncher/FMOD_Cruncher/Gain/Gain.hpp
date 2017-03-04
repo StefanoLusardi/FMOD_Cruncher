@@ -13,10 +13,10 @@ public:
 	Gain();
 	~Gain() {};
 
-	virtual void ProcessAudioBuffer(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
-	virtual void ProcessAudioChannel(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
-	virtual inline float ProcessAudioSample(float inSample, GainParams* params, unsigned int channel = 0) override;
-	virtual inline float ProcessAudioSample(float inSample, void* params, unsigned int channel = 0) override;
+	void ProcessAudioBuffer(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
+	void ProcessAudioChannel(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
+	inline float ProcessAudioSample(float inSample, GainParams* params, unsigned int channel = 0) override;
+	inline float ProcessAudioSample(float inSample, void* params, unsigned int channel = 0) override;
 
 	void Release() override {};
 	void Reset() override;

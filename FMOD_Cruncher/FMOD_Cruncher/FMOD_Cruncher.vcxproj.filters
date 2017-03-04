@@ -39,7 +39,7 @@
     <ClInclude Include="Plugin\Plugin.hpp">
       <Filter>Plugin</Filter>
     </ClInclude>
-    <ClInclude Include="Plugin\PluginUI.hpp">
+    <ClInclude Include="Plugin\PluginParams.hpp">
       <Filter>Plugin</Filter>
     </ClInclude>
   </ItemGroup>
