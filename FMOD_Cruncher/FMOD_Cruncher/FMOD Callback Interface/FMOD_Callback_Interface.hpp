@@ -67,7 +67,7 @@ extern "C"
 			"GainIn",
 			"dB",
 			"Gain in dB. -80 to 0. Default = 0",
-			DEFAULT_GAIN_PARAM,
+			MathLib::ZeroGain_dB,
 			gain_dB_values,
 			gain_ui_values);
 
@@ -77,7 +77,7 @@ extern "C"
 			"Noise",
 			"dB",
 			"Noise Level in dB. -80 to 0. Default = -80",
-			dB_MIN,
+			MathLib::MinGain_dB,
 			gain_dB_values,
 			gain_ui_values);
 

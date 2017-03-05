@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\..\..\sL_Libs\iDspInterface.hpp"
+#include "../../../sL_Libs/iDspInterface.hpp"
 
 struct NoiseParams : DspParams
 {

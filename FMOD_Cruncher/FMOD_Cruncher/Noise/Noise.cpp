@@ -8,6 +8,41 @@ Noise::Noise()
 
 void Noise::ProcessAudioBuffer(float* inBuffer, float* outBuffer, unsigned length, int channels)
 {
+	float processGain = mCurrentAmp;
+
+	if (mInterpolationSamples)
+	{
+		float deltaGain = (mTargetAmp - mCurrentAmp) / mInterpolationSamples;
+		while (length)
+		{
+			if (--mInterpolationSamples)
+			{
+				processGain += deltaGain;
+				for (int i = 0; i < channels; ++i)
+				{
+					params.amp = processGain;
+					*outBuffer++ = ProcessAudioSample(*inBuffer++, &params);		// GainParams*
+					//*outBuffer++ = ProcessAudioSample(*inBuffer++, &processGain);	// void*
+					//ProcessAudioChannel(inBuffer, outBuffer, length, channels);
+				}
+			}
+			else
+			{
+				processGain = mTargetAmp;
+				break;
+			}
+			--length;
+		}
+	}
+
+	unsigned int samples = length * channels;
+	while (samples--)
+	{
+		params.amp = processGain;
+		*outBuffer++ = ProcessAudioSample(*inBuffer++, &params);		// GainParams*
+		//*outBuffer++ = ProcessAudioSample(*inBuffer++, &processGain);	// void*
+	}
+	mCurrentAmp = processGain;
 }
 
 /* NOT USED*/
@@ -24,13 +59,13 @@ void Noise::ProcessAudioChannel(float* inBuffer, float* outBuffer, unsigned leng
 
 float Noise::ProcessAudioSample(float inSample, NoiseParams* params, unsigned channel)
 {
-	return inSample * (params->amp);
+	return inSample + MathLib::GetRandomFloat() * (params->amp);
 }
 
 float Noise::ProcessAudioSample(float inSample, void* params, unsigned channel)
 {
 	float* amp = static_cast<float*>(params);
-	return inSample * (*amp);
+	return inSample + MathLib::GetRandomFloat() * (*amp);
 }
 
 void Noise::Reset()

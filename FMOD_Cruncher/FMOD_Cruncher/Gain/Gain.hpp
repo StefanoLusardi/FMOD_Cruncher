@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\..\..\sL_Libs\iDspInterface.hpp"
+#include "../../../sL_Libs/iDspInterface.hpp"
 
 struct GainParams : DspParams
 {
@@ -26,7 +26,7 @@ public:
 
 private:
 	float mCurrentGain;
-	float mTargetGain;
+	float mTargetAmp;
 	int   mInterpolationSamples;
 
 	GainParams params;

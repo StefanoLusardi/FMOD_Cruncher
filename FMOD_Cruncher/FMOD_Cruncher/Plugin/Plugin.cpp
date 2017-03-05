@@ -24,7 +24,7 @@ void Plugin::Release()
 void Plugin::Process(float * inBuffer, float * outBuffer, unsigned int length, int channels)
 {
 	dspGain ->ProcessAudioBuffer(inBuffer, outBuffer, length, channels);
-	dspNoise->ProcessAudioBuffer(inBuffer, outBuffer, length, channels);
+	//dspNoise->ProcessAudioBuffer(inBuffer, outBuffer, length, channels);
 }
 
 void Plugin::Reset()
