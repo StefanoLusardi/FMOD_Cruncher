@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MathLib.hpp"
+#include "MathLib.h"
 
 template <typename PARAMS>
 class iDspInterface

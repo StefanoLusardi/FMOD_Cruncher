@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\sL_Libs\MathLib.h" />
     <ClInclude Include="BitCrusher\BitCrusher.hpp" />
     <ClInclude Include="Distortion\Distortion.hpp" />
     <ClInclude Include="FMOD Callback Interface\FMOD_Callback_Interface.hpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Plugin\Plugin.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\sL_Libs\MathLib.cpp" />
     <ClCompile Include="BitCrusher\BitCrusher.cpp" />
     <ClCompile Include="Distortion\Distortion.cpp" />
     <ClCompile Include="FMOD Callback Interface\FMOD_Callback_Interface.cpp" />

@@ -3,10 +3,11 @@
 Noise::Noise()
 {
 	mTargetAmp = DECIBELS_TO_LINEAR(0.0f);
+	//mTargetAmp = MathLib::dBToLin(MathLib::ZeroGain_dB);
 	Reset();
 }
 
-void Noise::ProcessAudioBuffer(float* inBuffer, float* outBuffer, unsigned length, int channels)
+void Noise::ProcessAudioBuffer(float * inBuffer, float * outBuffer, unsigned int length, int channels)
 {
 	float processGain = mCurrentAmp;
 
@@ -22,8 +23,8 @@ void Noise::ProcessAudioBuffer(float* inBuffer, float* outBuffer, unsigned lengt
 				{
 					params.amp = processGain;
 					*outBuffer++ = ProcessAudioSample(*inBuffer++, &params);		// GainParams*
-					//*outBuffer++ = ProcessAudioSample(*inBuffer++, &processGain);	// void*
-					//ProcessAudioChannel(inBuffer, outBuffer, length, channels);
+																					//*outBuffer++ = ProcessAudioSample(*inBuffer++, &processGain);	// void*
+																					//ProcessAudioChannel(inBuffer, outBuffer, length, channels);
 				}
 			}
 			else
@@ -40,13 +41,13 @@ void Noise::ProcessAudioBuffer(float* inBuffer, float* outBuffer, unsigned lengt
 	{
 		params.amp = processGain;
 		*outBuffer++ = ProcessAudioSample(*inBuffer++, &params);		// GainParams*
-		//*outBuffer++ = ProcessAudioSample(*inBuffer++, &processGain);	// void*
+																		//*outBuffer++ = ProcessAudioSample(*inBuffer++, &processGain);	// void*
 	}
 	mCurrentAmp = processGain;
 }
 
 /* NOT USED*/
-void Noise::ProcessAudioChannel(float* inBuffer, float* outBuffer, unsigned length, int channels)
+void Noise::ProcessAudioChannel(float * inBuffer, float * outBuffer, unsigned int length, int channels)
 {
 	for (unsigned int sample = 0; sample < length; sample++)
 	{
@@ -57,12 +58,12 @@ void Noise::ProcessAudioChannel(float* inBuffer, float* outBuffer, unsigned leng
 	}
 }
 
-float Noise::ProcessAudioSample(float inSample, NoiseParams* params, unsigned channel)
+inline float Noise::ProcessAudioSample(float inSample, NoiseParams * params, unsigned int channel)
 {
 	return inSample + MathLib::GetRandomFloat() * (params->amp);
 }
 
-float Noise::ProcessAudioSample(float inSample, void* params, unsigned channel)
+inline float Noise::ProcessAudioSample(float inSample, void * params, unsigned int channel)
 {
 	float* amp = static_cast<float*>(params);
 	return inSample + MathLib::GetRandomFloat() * (*amp);
