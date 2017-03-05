@@ -2,9 +2,9 @@
 
 Noise::Noise()
 {
-	mTargetAmp = DECIBELS_TO_LINEAR(0.0f);
-	//mTargetAmp = MathLib::dBToLin(MathLib::ZeroGain_dB);
-	Reset();
+	//mTargetAmp = DECIBELS_TO_LINEAR(0.0f);
+	mTargetAmp = MathLib::dBToLin(MathLib::ZeroGain_dB);
+	Noise::Reset();
 }
 
 void Noise::ProcessAudioBuffer(float * inBuffer, float * outBuffer, unsigned int length, int channels)
@@ -82,7 +82,8 @@ float Noise::getAmp()
 
 void Noise::setAmp(float amp)
 {
-	mTargetAmp = DECIBELS_TO_LINEAR(amp);
-	mInterpolationSamples = INTERPOLATION_SAMPLES;
+	//mTargetAmp = DECIBELS_TO_LINEAR(amp);
+	mTargetAmp = MathLib::dBToLin(amp);
+	mInterpolationSamples = MathLib::InterpolationSamples;
 }
 

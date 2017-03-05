@@ -31,9 +31,9 @@ FMOD_RESULT F_CALLBACK ReleaseCallback(FMOD_DSP_STATE *dsp_state)
 */
 /*==========================================================================================================================================================*/
 
-FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE *dsp_state, FMOD_BOOL inputsidle, unsigned int length, FMOD_CHANNELMASK inmask, int inchannels, FMOD_SPEAKERMODE speakermode)
+FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE * /*dsp_state*/, FMOD_BOOL inputsidle, unsigned int /*length*/, FMOD_CHANNELMASK /*inmask*/, int /*inchannels*/, FMOD_SPEAKERMODE /*speakermode*/)
 {
-	Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
+	//Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
 	if (inputsidle)
 		return FMOD_ERR_DSP_DONTPROCESS;
 	return FMOD_OK;

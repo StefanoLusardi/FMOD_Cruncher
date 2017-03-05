@@ -17,6 +17,8 @@ namespace MathLib
 	static float const ZeroGain_lin = 1.0f;
 	
 	static float const Pi = 3.14159265359f;
+
+	static int const InterpolationSamples = 256;
 	
 
 	/*   Functions   */

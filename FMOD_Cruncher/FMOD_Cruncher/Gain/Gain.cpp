@@ -2,8 +2,9 @@
 
 Gain::Gain()
 {
-	mTargetAmp = DECIBELS_TO_LINEAR(0.0f);
-	Reset();
+	//mTargetAmp = DECIBELS_TO_LINEAR(0.0f);
+	mTargetAmp = MathLib::dBToLin(MathLib::ZeroGain_dB);
+	Gain::Reset();
 }
 
 void Gain::ProcessAudioBuffer(float* inBuffer, float* outBuffer, unsigned int length, int channels)
@@ -21,7 +22,7 @@ void Gain::ProcessAudioBuffer(float* inBuffer, float* outBuffer, unsigned int le
 				for (int i = 0; i < channels; ++i)
 				{
 					params.gain = processGain;
-					*outBuffer++ = ProcessAudioSample(*inBuffer++, &params);		// GainParams*
+					*outBuffer++ = ProcessAudioSample(*inBuffer++, &params); // GainParams*
 					//*outBuffer++ = ProcessAudioSample(*inBuffer++, &processGain);	// void*
 					//ProcessAudioChannel(inBuffer, outBuffer, length, channels);
 				}
@@ -76,8 +77,9 @@ void Gain::Reset()
 
 void Gain::setGain(float gain)
 {
-	mTargetAmp = DECIBELS_TO_LINEAR(gain);
-	mInterpolationSamples = INTERPOLATION_SAMPLES;
+	//mTargetAmp = DECIBELS_TO_LINEAR(gain);
+	mTargetAmp = MathLib::dBToLin(gain);
+	mInterpolationSamples = MathLib::InterpolationSamples;
 }
 
 float Gain::getGain()

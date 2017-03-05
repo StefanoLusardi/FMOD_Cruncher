@@ -13,7 +13,9 @@
 class Plugin // : iPluginInterface
 {
 public:
-	Plugin() { };
+	Plugin() :	dspGain(nullptr), 
+				dspNoise(nullptr) 
+	{ }
 
 	void Create();
 	void Release();
