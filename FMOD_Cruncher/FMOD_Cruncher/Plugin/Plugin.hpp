@@ -9,12 +9,13 @@
 #include "../Distortion/Distortion.hpp"
 #include "../BitCrusher/BitCrusher.hpp"
 
-// TODO: Plugin Interface implementation
+// TODO: Plugin Interface implementation??
 class Plugin // : iPluginInterface
 {
 public:
 	Plugin() :	dspGain(nullptr), 
-				dspNoise(nullptr) 
+				dspNoise(nullptr),
+				dspDistortion(nullptr)
 	{ }
 
 	void Create();
@@ -30,7 +31,8 @@ public:
 	//void getParameterBool(int index, bool *value, char *valuestr);
 
 private:
-	iDspInterface<GainParams>  *dspGain;
-	iDspInterface<NoiseParams> *dspNoise;
+	iDspInterface* dspGain;
+	iDspInterface* dspNoise;
+	iDspInterface* dspDistortion;
 };
 

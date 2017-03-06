@@ -1,9 +1,11 @@
 #include "Plugin.hpp"
+#include <vector>
 
 void Plugin::Create()
 {
 	dspGain  = new Gain();
 	dspNoise = new Noise();
+	dspDistortion = new Distortion();
 }
 
 void Plugin::Release()
@@ -19,15 +21,28 @@ void Plugin::Release()
 		dspNoise->Release();
 		delete dspNoise;
 	}
+
+	if (dspDistortion)
+	{
+		dspDistortion->Release();
+		delete dspDistortion;
+	}
 }
 
 void Plugin::Process(float * inBuffer, float * outBuffer, unsigned int length, int channels)
 {
-	// TODO: Fix bufferOutputGain initialization!
-	float bufferOutputGain[2048]{0.0f}; // AAARRRHHH!
-	dspGain->ProcessAudioBuffer(inBuffer, &bufferOutputGain[0], length, channels);
-	//float bufferOutputNoise[];
-	dspNoise->ProcessAudioBuffer(&bufferOutputGain[0], outBuffer, length, channels);
+	int numSamples = length * channels;
+	std::vector<float> bufferOutputGain(numSamples);
+	//float bufferOutputGain[2048];
+	dspGain->ProcessAudioBuffer(inBuffer, &bufferOutputGain[0], length, channels);	
+	
+	//float bufferOutputNoise[2048];
+	//dspNoise->ProcessAudioBuffer(&bufferOutputGain[0], outBuffer, length, channels);
+	std::vector<float> bufferOutputNoise(numSamples);
+	dspNoise->ProcessAudioBuffer(&bufferOutputGain[0], &bufferOutputNoise[0], length, channels);
+
+	std::vector<float> bufferOutputDistortion(numSamples);
+	dspDistortion->ProcessAudioBuffer(&bufferOutputNoise[0], outBuffer, length, channels);
 }
 
 void Plugin::Reset()
@@ -35,8 +50,15 @@ void Plugin::Reset()
 	if (dspGain)
 		delete dspGain;
 
+	if (dspNoise)
+		delete dspNoise;
+
+	if (dspDistortion)
+		delete dspDistortion;
+
 	dspGain  = new Gain();
 	dspNoise = new Noise();
+	dspDistortion = new Distortion();
 }
 
 void Plugin::setParameterFloat(int index, float value)
@@ -51,6 +73,11 @@ void Plugin::setParameterFloat(int index, float value)
 	case static_cast<int>(UiParams::UI_PARAM_NOISE_AMP) :
 		if (dspNoise)
 			(static_cast<Noise*>(dspNoise))->setAmp(value);
+		break;
+
+	case static_cast<int>(UiParams::UI_PARAM_DISTORTION) :
+		if (dspDistortion)
+			(static_cast<Distortion*>(dspDistortion))->setLevel(value);
 		break;
 
 	default: 
@@ -72,6 +99,12 @@ void Plugin::getParameterFloat(int index, float * value, char * valuestr)
 		*value = (static_cast<Noise*>(dspNoise))->getAmp();
 		if (valuestr)
 			sprintf(valuestr, "%.1f dB", (static_cast<Noise*>(dspNoise))->getAmp());
+		break;
+
+	case static_cast<int>(UiParams::UI_PARAM_DISTORTION) :
+		*value = (static_cast<Distortion*>(dspDistortion))->getLevel();
+		if (valuestr)
+			sprintf(valuestr, "%.1f dB", (static_cast<Distortion*>(dspDistortion))->getLevel());
 		break;
 
 	default:

@@ -2,7 +2,7 @@
 
 Noise::Noise()
 {
-	//mTargetAmp = DECIBELS_TO_LINEAR(0.0f);
+	params = new NoiseParams();
 	mTargetAmp = MathLib::dBToLin(MathLib::ZeroGain_dB);
 	Noise::Reset();
 }
@@ -21,8 +21,8 @@ void Noise::ProcessAudioBuffer(float * inBuffer, float * outBuffer, unsigned int
 				processGain += deltaGain;
 				for (int i = 0; i < channels; ++i)
 				{
-					params.amp = processGain;
-					*outBuffer++ = ProcessAudioSample(*inBuffer++, &params);		// GainParams*
+					params->amp = processGain;
+					*outBuffer++ = ProcessAudioSample(*inBuffer++, static_cast<DspParams*>(params));		// GainParams*
 																					//*outBuffer++ = ProcessAudioSample(*inBuffer++, &processGain);	// void*
 																					//ProcessAudioChannel(inBuffer, outBuffer, length, channels);
 				}
@@ -39,8 +39,8 @@ void Noise::ProcessAudioBuffer(float * inBuffer, float * outBuffer, unsigned int
 	unsigned int samples = length * channels;
 	while (samples--)
 	{
-		params.amp = processGain;
-		*outBuffer++ = ProcessAudioSample(*inBuffer++, &params);		// GainParams*
+		params->amp = processGain;
+		*outBuffer++ = ProcessAudioSample(*inBuffer++, static_cast<DspParams*>(params));		// GainParams*
 																		//*outBuffer++ = ProcessAudioSample(*inBuffer++, &processGain);	// void*
 	}
 	mCurrentAmp = processGain;
@@ -58,9 +58,9 @@ void Noise::ProcessAudioChannel(float * inBuffer, float * outBuffer, unsigned in
 	}
 }
 
-inline float Noise::ProcessAudioSample(float inSample, NoiseParams * params, unsigned int channel)
+inline float Noise::ProcessAudioSample(float inSample, DspParams * params, unsigned int channel)
 {
-	return inSample + MathLib::GetRandomFloat() * (params->amp);
+	return inSample + MathLib::GetRandomFloat() * (static_cast<NoiseParams*>(params)->amp);
 }
 
 inline float Noise::ProcessAudioSample(float inSample, void * params, unsigned int channel)
@@ -82,7 +82,6 @@ float Noise::getAmp()
 
 void Noise::setAmp(float amp)
 {
-	//mTargetAmp = DECIBELS_TO_LINEAR(amp);
 	mTargetAmp = MathLib::dBToLin(amp);
 	mInterpolationSamples = MathLib::InterpolationSamples;
 }

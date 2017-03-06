@@ -86,6 +86,15 @@ extern "C"
 		// CUTOFF
 		// RESONANCE
 		// DISTORTION
+		FMOD_DSP_INIT_PARAMDESC_FLOAT(
+			p_distortion,
+			"Distortion",
+			"",
+			"Distortion Level. 0 to 1. Default = 0",
+			0.0f, // Min
+			1.0f, // Max
+			0.0f, // Default
+			true);
 		// BYPASS
 
 		return &pluginDescription;

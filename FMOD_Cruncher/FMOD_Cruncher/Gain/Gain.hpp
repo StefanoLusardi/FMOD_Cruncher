@@ -7,7 +7,7 @@ struct GainParams : DspParams
 	float gain;
 };
 
-class Gain : public iDspInterface<GainParams>
+class Gain : public iDspInterface//<GainParams>
 {
 public:
 	Gain();
@@ -15,7 +15,7 @@ public:
 
 	void ProcessAudioBuffer(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
 	void ProcessAudioChannel(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
-	inline float ProcessAudioSample(float inSample, GainParams* params, unsigned int channel = 0) override;
+	inline float ProcessAudioSample(float inSample, DspParams* params, unsigned int channel = 0) override;
 	inline float ProcessAudioSample(float inSample, void* params, unsigned int channel = 0) override;
 
 	void Release() override { };
@@ -26,8 +26,8 @@ public:
 
 private:
 	float mCurrentGain;
-	float mTargetAmp;
+	float mTargetGain;
 	int   mInterpolationSamples;
 
-	GainParams params;
+	GainParams* params;
 };
