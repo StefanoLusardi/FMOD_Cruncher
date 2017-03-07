@@ -2,22 +2,21 @@
 
 #include "../../../sL_Libs/iDspInterface.hpp"
 
-struct GainParams : DspParams
+struct GainParams : iDspParams
 {
 	float gain;
 };
 
-class Gain : public iDspInterface//<GainParams>
+class Gain : public iDspInterface
 {
 public:
 	Gain();
-	~Gain() { }
+	~Gain();
 
 	void ProcessAudioBuffer(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
 	void ProcessAudioChannel(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
-	inline float ProcessAudioSample(float inSample, DspParams* params, unsigned int channel = 0) override;
-	inline float ProcessAudioSample(float inSample, void* params, unsigned int channel = 0) override;
-
+	inline float ProcessAudioSample(float inSample, iDspParams* params, unsigned int channel = 0) override;
+	
 	void Release() override { };
 	void Reset() override;
 

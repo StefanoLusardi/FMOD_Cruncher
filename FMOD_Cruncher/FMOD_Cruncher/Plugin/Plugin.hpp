@@ -14,8 +14,9 @@ class Plugin // : iPluginInterface
 {
 public:
 	Plugin() :	dspGain(nullptr), 
-				dspNoise(nullptr),
-				dspDistortion(nullptr)
+				dspNoise(nullptr), 
+				dspDistortion(nullptr),
+				dspBitCrush(nullptr)
 	{ }
 
 	void Create();
@@ -25,8 +26,8 @@ public:
 
 	void setParameterFloat(int index, float value);
 	void getParameterFloat(int index, float *value, char *valuestr);
-	//void setParameterInt(int index, int value);
-	//void getParameterInt(int index, int *value, char *valuestr);
+	void setParameterInt(int index, int value);
+	void getParameterInt(int index, int *value, char *valuestr);
 	//void setParameterBool(int index, bool value);
 	//void getParameterBool(int index, bool *value, char *valuestr);
 
@@ -34,5 +35,6 @@ private:
 	iDspInterface* dspGain;
 	iDspInterface* dspNoise;
 	iDspInterface* dspDistortion;
+	iDspInterface* dspBitCrush;
 };
 

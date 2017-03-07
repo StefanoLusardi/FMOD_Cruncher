@@ -16,8 +16,8 @@ FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp, float *inBuffer, float 
 FMOD_RESULT F_CALLBACK ResetCallback(FMOD_DSP_STATE *dsp);
 FMOD_RESULT F_CALLBACK SetParameterFloat(FMOD_DSP_STATE *dsp, int index, float value);
 FMOD_RESULT F_CALLBACK GetParameterFloat(FMOD_DSP_STATE *dsp, int index, float *value, char *valuestr);
-//FMOD_RESULT F_CALLBACK SetParameterInt(FMOD_DSP_STATE *dsp, int index, int value);
-//FMOD_RESULT F_CALLBACK GetParameterInt(FMOD_DSP_STATE *dsp, int index, int *value, char *valuestr);
+FMOD_RESULT F_CALLBACK SetParameterInt(FMOD_DSP_STATE *dsp, int index, int value);
+FMOD_RESULT F_CALLBACK GetParameterInt(FMOD_DSP_STATE *dsp, int index, int *value, char *valuestr);
 //FMOD_RESULT F_CALLBACK SetParameterBool(FMOD_DSP_STATE *dsp, int index, bool value); //FMOD_BOOL
 //FMOD_RESULT F_CALLBACK GetParameterBool(FMOD_DSP_STATE *dsp, int index, bool *value, char *valuestr); //FMOD_BOOL
 FMOD_RESULT F_CALLBACK SysRegister(FMOD_DSP_STATE *dsp_state);
@@ -40,11 +40,11 @@ FMOD_DSP_DESCRIPTION pluginDescription =
 	static_cast<int>(UiParams::PLUGIN_NUM_PARAMS),	// int								   numparameters;    
 	pluginPrameters,		 // FMOD_DSP_PARAMETER_DESC           **paramdesc;          
 	SetParameterFloat,		 // FMOD_DSP_SETPARAM_FLOAT_CALLBACK    setparameterfloat;  
-	0,//SetParameterInt,	 // FMOD_DSP_SETPARAM_INT_CALLBACK      setparameterint;    
+	SetParameterInt,		 // FMOD_DSP_SETPARAM_INT_CALLBACK      setparameterint;    
 	0,//SetParameterBool,    // FMOD_DSP_SETPARAM_BOOL_CALLBACK     setparameterbool;   
 	0,                       // FMOD_DSP_SETPARAM_DATA_CALLBACK     setparameterdata;   
 	GetParameterFloat,		 // FMOD_DSP_GETPARAM_FLOAT_CALLBACK    getparameterfloat;  
-	0,//GetParameterInt,	 // FMOD_DSP_GETPARAM_INT_CALLBACK      getparameterint;    
+	GetParameterInt,		 // FMOD_DSP_GETPARAM_INT_CALLBACK      getparameterint;    
 	0,//GetParameterBool,    // FMOD_DSP_GETPARAM_BOOL_CALLBACK     getparameterbool;   
 	0,                       // FMOD_DSP_GETPARAM_DATA_CALLBACK     getparameterdata;   
 	ShouldIProcessCallback,  // FMOD_DSP_SHOULDIPROCESS             shouldiprocess;     
@@ -82,19 +82,46 @@ extern "C"
 			gain_ui_values);
 
 		// BIT DEPTH
+		FMOD_DSP_INIT_PARAMDESC_INT(
+			p_bitDepth,
+			"BitDepth",
+			"",
+			"Bith Depth. 16 to 1. Default = 16",
+			1, 
+			16, 
+			16, 
+			false,
+			nullptr
+			);
+
 		// DECIMATION
+		FMOD_DSP_INIT_PARAMDESC_INT(
+			p_decimation,
+			"Decimation",
+			"",
+			"Sample Rate Divider. 1 to 50. Default = 1",
+			1,
+			50,
+			1,
+			false,
+			nullptr
+			);
+
 		// CUTOFF
+
 		// RESONANCE
+
 		// DISTORTION
 		FMOD_DSP_INIT_PARAMDESC_FLOAT(
 			p_distortion,
 			"Distortion",
 			"",
 			"Distortion Level. 0 to 1. Default = 0",
-			0.0f, // Min
+			0.05f, // Min
 			1.0f, // Max
 			0.0f, // Default
-			true);
+			false);
+
 		// BYPASS
 
 		return &pluginDescription;

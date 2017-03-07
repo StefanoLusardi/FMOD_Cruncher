@@ -62,6 +62,20 @@ FMOD_RESULT F_CALLBACK GetParameterFloat(FMOD_DSP_STATE *dsp_state, int index, f
 	return FMOD_OK;
 }
 
+FMOD_RESULT F_CALLBACK SetParameterInt(FMOD_DSP_STATE *dsp_state, int index, int value)
+{
+	Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
+	dsp->setParameterInt(index, value);
+	return FMOD_OK;
+}
+
+FMOD_RESULT F_CALLBACK GetParameterInt(FMOD_DSP_STATE *dsp_state, int index, int *value, char *valuestr)
+{
+	Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
+	dsp->getParameterInt(index, value, valuestr);
+	return FMOD_OK;
+}
+
 FMOD_RESULT F_CALLBACK SysRegister(FMOD_DSP_STATE * /*dsp_state*/)
 {
 	// called once for this type of dsp being loaded or registered (it is not per instance)
