@@ -43,6 +43,7 @@
       <Filter>Plugin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sL_Libs\MathLib.h" />
+    <ClInclude Include="Filter\Filter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitCrusher\BitCrusher.cpp">
@@ -64,5 +65,6 @@
       <Filter>Plugin</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sL_Libs\MathLib.cpp" />
+    <ClCompile Include="Filter\Filter.cpp" />
   </ItemGroup>
 </Project>

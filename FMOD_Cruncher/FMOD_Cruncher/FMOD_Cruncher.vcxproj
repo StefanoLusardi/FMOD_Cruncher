@@ -148,6 +148,7 @@
     <ClInclude Include="..\..\sL_Libs\MathLib.h" />
     <ClInclude Include="BitCrusher\BitCrusher.hpp" />
     <ClInclude Include="Distortion\Distortion.hpp" />
+    <ClInclude Include="Filter\Filter.hpp" />
     <ClInclude Include="FMOD Callback Interface\FMOD_Callback_Interface.hpp" />
     <ClInclude Include="Gain\Gain.hpp" />
     <ClInclude Include="Noise\Noise.hpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="..\..\sL_Libs\MathLib.cpp" />
     <ClCompile Include="BitCrusher\BitCrusher.cpp" />
     <ClCompile Include="Distortion\Distortion.cpp" />
+    <ClCompile Include="Filter\Filter.cpp" />
     <ClCompile Include="FMOD Callback Interface\FMOD_Callback_Interface.cpp" />
     <ClCompile Include="Gain\Gain.cpp" />
     <ClCompile Include="Noise\Noise.cpp" />

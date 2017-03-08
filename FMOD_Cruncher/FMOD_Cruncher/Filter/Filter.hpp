@@ -1,18 +1,17 @@
 #pragma once
-
 #include "../../../sL_Libs/iDspInterface.hpp"
 
-struct BitCrusherParams : iDspParams
+struct FilterParams : iDspParams
 {
-	int bitDepth;
-	float decimationRate;
+	float cutoff;
+	float resonance;
 };
 
-class BitCrusher : public iDspInterface
+class Filter : public iDspInterface
 {
 public:
-	BitCrusher();
-	~BitCrusher();
+	Filter();
+	~Filter();
 
 	void ProcessAudioBuffer(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
 	void ProcessAudioChannel(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
@@ -21,17 +20,19 @@ public:
 	void Release() override { };
 	void Reset() override;
 
-	int  getBits();
-	void setBits(int);
+	float getCutoff();
+	void  setCutoff(float);
 
-	float getDecimation();
-	void  setDecimation(float);
+	float getResonance();
+	void  setResonance(float);
 
 private:
-	int mBits;		// Bit depth: [15..1] 
-	float mDecimation;	// Sample rate divider: [1..0.01]
-	float mPhasor;
+	float mCurrentCutoff;
+	float mTargetCutoff;
+	float mCurrentResonance;
+	float mTargetResonance;
 	int   mInterpolationSamples;
 
-	BitCrusherParams* params;
+	FilterParams* params;
 };
+
