@@ -1,5 +1,4 @@
 #include "Plugin.hpp"
-#include <vector>
 
 void Plugin::Create()
 {
@@ -40,17 +39,16 @@ void Plugin::Process(float * inBuffer, float * outBuffer, unsigned int length, i
 {
 	int numSamples = length * channels;
 
-	std::vector<float> bufferOutputGain(numSamples);
-	std::vector<float> bufferOutputNoise(numSamples);
-	std::vector<float> bufferOutputDistortion(numSamples);
+	bufGain.resize(numSamples);
+	dspGain->ProcessAudioBuffer(inBuffer, &bufGain[0], length, channels);		
 
-	dspGain->ProcessAudioBuffer(inBuffer, &bufferOutputGain[0], length, channels);		
-	dspNoise->ProcessAudioBuffer(&bufferOutputGain[0], &bufferOutputNoise[0], length, channels);	
-	
-	//dspDistortion->ProcessAudioBuffer(&bufferOutputNoise[0], outBuffer, length, channels);
+	bufNoise.resize(numSamples);
+	dspNoise->ProcessAudioBuffer(&bufGain[0], &bufNoise[0], length, channels);	
 
-	dspDistortion->ProcessAudioBuffer(&bufferOutputNoise[0], &bufferOutputDistortion[0], length, channels);
-	dspBitCrush->ProcessAudioBuffer(&bufferOutputDistortion[0], outBuffer, length, channels);
+	bufDistortion.resize(numSamples);
+	dspDistortion->ProcessAudioBuffer(&bufNoise[0], &bufDistortion[0], length, channels);
+
+	dspBitCrush->ProcessAudioBuffer(&bufDistortion[0], outBuffer, length, channels);
 }
 
 void Plugin::Reset()
@@ -71,6 +69,10 @@ void Plugin::Reset()
 	dspNoise		= new Noise();
 	dspDistortion	= new Distortion();
 	dspBitCrush		= new BitCrusher();
+
+	bufGain.clear();
+	bufNoise.clear();
+	bufDistortion.clear();
 }
 
 void Plugin::setParameterFloat(int index, float value)
@@ -90,6 +92,11 @@ void Plugin::setParameterFloat(int index, float value)
 	case static_cast<int>(UiParams::UI_PARAM_DISTORTION) :
 		if (dspDistortion)
 			(static_cast<Distortion*>(dspDistortion))->setLevel(value);
+		break;
+				
+	case static_cast<int>(UiParams::UI_PARAM_DECIMATION) :
+		if (dspBitCrush)
+			(static_cast<BitCrusher*>(dspBitCrush))->setDecimation(value);
 		break;
 
 	default: 
@@ -119,6 +126,12 @@ void Plugin::getParameterFloat(int index, float * value, char * valuestr)
 			sprintf(valuestr, "%.1f dB", (static_cast<Distortion*>(dspDistortion))->getLevel());
 		break;
 
+	case static_cast<int>(UiParams::UI_PARAM_DECIMATION) :
+		*value = (static_cast<BitCrusher*>(dspBitCrush))->getDecimation();
+		if (valuestr)
+			sprintf(valuestr, "%.1f dB", (static_cast<BitCrusher*>(dspBitCrush))->getDecimation());
+		break;
+
 	default:
 		break;
 	}
@@ -131,11 +144,6 @@ void Plugin::setParameterInt(int index, int value)
 	case static_cast<int>(UiParams::UI_PARAM_BIT_DEPTH) :
 		if (dspBitCrush)
 			(static_cast<BitCrusher*>(dspBitCrush))->setBits(value);
-		break;
-
-	case static_cast<int>(UiParams::UI_PARAM_DECIMATION) :
-		if (dspBitCrush)
-			(static_cast<BitCrusher*>(dspBitCrush))->setDecimation(value);
 		break;
 
 	default: 
@@ -151,12 +159,6 @@ void Plugin::getParameterInt(int index, int * value, char * valuestr)
 		*value = (static_cast<BitCrusher*>(dspBitCrush))->getBits();
 		if (valuestr)
 			sprintf(valuestr, "%d dB", (static_cast<BitCrusher *>(dspBitCrush))->getBits());
-		break;
-
-	case static_cast<int>(UiParams::UI_PARAM_DECIMATION) :
-		*value = (static_cast<BitCrusher*>(dspBitCrush))->getDecimation();
-		if (valuestr)
-			sprintf(valuestr, "%d dB", (static_cast<BitCrusher*>(dspBitCrush))->getDecimation());
 		break;
 
 	default:

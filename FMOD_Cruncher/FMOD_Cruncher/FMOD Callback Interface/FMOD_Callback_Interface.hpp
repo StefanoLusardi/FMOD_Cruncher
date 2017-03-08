@@ -58,15 +58,15 @@ extern "C"
 {
 	F_EXPORT FMOD_DSP_DESCRIPTION* F_CALL FMODGetDSPDescription()
 	{
-		static float gain_dB_values[] = { -80, -50, -30, -12, -6,  0 };
-		static float gain_ui_values[] = { 0,   2,   4,   7,   8,  10 };
+		static float gain_dB_values[] = { -80, -50, -30, -6,  0,  6 };
+		static float gain_ui_values[] = {  0,   2,   4,   6,  8,  10 };
 
 		// GAIN IN
 		FMOD_DSP_INIT_PARAMDESC_FLOAT_WITH_MAPPING(
 			p_gain,
 			"GainIn",
 			"dB",
-			"Gain in dB. -80 to 0. Default = 0",
+			"Gain in dB. -80 to +6. Default = 0",
 			MathLib::ZeroGain_dB,
 			gain_dB_values,
 			gain_ui_values);
@@ -91,21 +91,18 @@ extern "C"
 			16, 
 			16, 
 			false,
-			nullptr
-			);
+			nullptr);
 
 		// DECIMATION
-		FMOD_DSP_INIT_PARAMDESC_INT(
+		FMOD_DSP_INIT_PARAMDESC_FLOAT(
 			p_decimation,
 			"Decimation",
 			"",
 			"Sample Rate Divider. 1 to 50. Default = 1",
-			1,
-			50,
-			1,
-			false,
-			nullptr
-			);
+			0.01f,
+			1.0f,
+			1.0f,
+			true);
 
 		// CUTOFF
 

@@ -36,14 +36,14 @@ void BitCrusher::ProcessAudioChannel(float * inBuffer, float * outBuffer, unsign
 
 inline float BitCrusher::ProcessAudioSample(float inSample, iDspParams * params, unsigned int channel)
 {
-	float rate = 1 / float(static_cast<BitCrusherParams*>(params)->decimationRate);
+	float rate = static_cast<BitCrusherParams*>(params)->decimationRate;
 	mPhasor += rate;
 
 	if (mPhasor >= 1.0f)
 	{
 		mPhasor -= 1.0f; 
 		int bits = static_cast<BitCrusherParams*>(params)->bitDepth;
-		double step = 1 << bits;
+		float step = 1 << bits;
 		return int(inSample * step) / step;
 	}
 	return 0.0f;
@@ -67,12 +67,12 @@ void BitCrusher::setBits(int bitDepth)
 	//mBits = 1 << (bitDepth - 1);
 }
 
-int BitCrusher::getDecimation()
+float BitCrusher::getDecimation()
 {
 	return mDecimation;
 }
 
-void BitCrusher::setDecimation(int SampleRateDivider)
+void BitCrusher::setDecimation(float SampleRateDivider)
 {
 	mDecimation = SampleRateDivider;
 }

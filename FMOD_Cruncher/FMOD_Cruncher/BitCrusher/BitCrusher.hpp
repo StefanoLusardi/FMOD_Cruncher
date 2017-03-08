@@ -5,7 +5,7 @@
 struct BitCrusherParams : iDspParams
 {
 	int bitDepth;
-	int decimationRate;
+	float decimationRate;
 };
 
 class BitCrusher : public iDspInterface
@@ -24,12 +24,12 @@ public:
 	int  getBits();
 	void setBits(int);
 
-	int  getDecimation();
-	void setDecimation(int);
+	float  getDecimation();
+	void setDecimation(float);
 
 private:
-	float mBits;		// Bit depth: [16..1] 
-	float mDecimation;	// Sample rate divider: [1..50]
+	int mBits;		// Bit depth: [15..1] 
+	float mDecimation;	// Sample rate divider: [1..0.01]
 	float mPhasor;
 	int   mInterpolationSamples;
 

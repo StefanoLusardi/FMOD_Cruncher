@@ -8,6 +8,7 @@
 #include "../Noise/Noise.hpp"
 #include "../Distortion/Distortion.hpp"
 #include "../BitCrusher/BitCrusher.hpp"
+#include <vector>
 
 // TODO: Plugin Interface implementation??
 class Plugin // : iPluginInterface
@@ -36,5 +37,9 @@ private:
 	iDspInterface* dspNoise;
 	iDspInterface* dspDistortion;
 	iDspInterface* dspBitCrush;
+
+	std::vector<float> bufGain;
+	std::vector<float> bufNoise;
+	std::vector<float> bufDistortion;
 };
 
