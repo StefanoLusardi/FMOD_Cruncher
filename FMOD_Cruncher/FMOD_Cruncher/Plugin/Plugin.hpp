@@ -8,7 +8,8 @@
 #include "../Noise/Noise.hpp"
 #include "../Distortion/Distortion.hpp"
 #include "../BitCrusher/BitCrusher.hpp"
-#include <vector>
+#include "../Filter/Filter.hpp"
+
 
 // TODO: Plugin Interface implementation??
 class Plugin // : iPluginInterface
@@ -17,7 +18,8 @@ public:
 	Plugin() :	dspGain(nullptr), 
 				dspNoise(nullptr), 
 				dspDistortion(nullptr),
-				dspBitCrush(nullptr)
+				dspBitCrush(nullptr),
+				dspFilter(nullptr)
 	{ }
 
 	void Create();
@@ -29,17 +31,17 @@ public:
 	void getParameterFloat(int index, float *value, char *valuestr);
 	void setParameterInt(int index, int value);
 	void getParameterInt(int index, int *value, char *valuestr);
-	//void setParameterBool(int index, bool value);
-	//void getParameterBool(int index, bool *value, char *valuestr);
 
 private:
 	iDspInterface* dspGain;
 	iDspInterface* dspNoise;
-	iDspInterface* dspDistortion;
 	iDspInterface* dspBitCrush;
+	iDspInterface* dspDistortion;
+	iDspInterface* dspFilter;
 
 	std::vector<float> bufGain;
 	std::vector<float> bufNoise;
+	std::vector<float> bufBitCrusher;
 	std::vector<float> bufDistortion;
 };
 

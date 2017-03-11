@@ -31,7 +31,7 @@ FMOD_RESULT F_CALLBACK ReleaseCallback(FMOD_DSP_STATE *dsp_state)
 */
 /*==========================================================================================================================================================*/
 
-FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE * /*dsp_state*/, FMOD_BOOL inputsidle, unsigned int /*length*/, FMOD_CHANNELMASK /*inmask*/, int /*inchannels*/, FMOD_SPEAKERMODE /*speakermode*/)
+FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE * /*dsp_state*/, FMOD_BOOL inputsidle, unsigned int /*length*/, FMOD_CHANNELMASK /*inmask*/, int /*channels*/, FMOD_SPEAKERMODE /*speakermode*/)
 {
 	//Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
 	if (inputsidle)
@@ -39,10 +39,10 @@ FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE * /*dsp_state*/, FM
 	return FMOD_OK;
 }
 
-FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp_state, float *inBuffer, float *outBuffer, unsigned int length, int inchannels, int *outchannels)
+FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp_state, float *inBuffer, float *outBuffer, unsigned int length, int channels, int *outchannels)
 {
 	Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
-	dsp->Process(inBuffer, outBuffer, length, inchannels);
+	dsp->Process(inBuffer, outBuffer, length, channels);
 	return FMOD_OK;
 }
 

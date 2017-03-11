@@ -24,10 +24,5 @@ namespace MathLib
 	/*   Functions   */
 	float dBToLin(float value_dB);
 	float LinTodB(float value_lin);
-	extern float GetRandomFloat();
+	float GetRandomFloat();
 }
-
-// Remove
-#define DECIBELS_TO_LINEAR(__dbval__)  ((__dbval__ <= -80.0f) ? 0.0f : powf(10.0f, __dbval__ / 20.0f))
-#define LINEAR_TO_DECIBELS(__linval__) ((__linval__ <= 0.0f) ? -80.0f : 20.0f * log10f((float)__linval__))
-#define INTERPOLATION_SAMPLES 256

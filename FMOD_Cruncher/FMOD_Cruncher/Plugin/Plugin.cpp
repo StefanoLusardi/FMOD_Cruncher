@@ -6,6 +6,7 @@ void Plugin::Create()
 	dspNoise		= new Noise();
 	dspDistortion	= new Distortion();
 	dspBitCrush		= new BitCrusher();
+	dspFilter		= new Filter();
 }
 
 void Plugin::Release()
@@ -33,6 +34,12 @@ void Plugin::Release()
 		dspBitCrush->Release();
 		delete dspBitCrush;
 	}	
+
+	if (dspFilter)
+	{
+		dspFilter->Release();
+		delete dspFilter;
+	}
 }
 
 void Plugin::Process(float * inBuffer, float * outBuffer, unsigned int length, int channels)
@@ -45,10 +52,13 @@ void Plugin::Process(float * inBuffer, float * outBuffer, unsigned int length, i
 	bufNoise.resize(numSamples);
 	dspNoise->ProcessAudioBuffer(&bufGain[0], &bufNoise[0], length, channels);	
 
-	bufDistortion.resize(numSamples);
-	dspDistortion->ProcessAudioBuffer(&bufNoise[0], &bufDistortion[0], length, channels);
+	bufBitCrusher.resize(numSamples);
+	dspBitCrush->ProcessAudioBuffer(&bufNoise[0], &bufBitCrusher[0], length, channels);
 
-	dspBitCrush->ProcessAudioBuffer(&bufDistortion[0], outBuffer, length, channels);
+	bufDistortion.resize(numSamples);
+	dspDistortion->ProcessAudioBuffer(&bufBitCrusher[0], &bufDistortion[0], length, channels);
+	
+	dspFilter->ProcessAudioBuffer(&bufDistortion[0], outBuffer, length, channels);
 }
 
 void Plugin::Reset()
@@ -65,10 +75,14 @@ void Plugin::Reset()
 	if (dspBitCrush)
 		delete dspBitCrush;
 
+	if (dspFilter)
+		delete dspFilter;
+
 	dspGain			= new Gain();
 	dspNoise		= new Noise();
 	dspDistortion	= new Distortion();
 	dspBitCrush		= new BitCrusher();
+	dspFilter		= new Filter();
 
 	bufGain.clear();
 	bufNoise.clear();
@@ -97,6 +111,16 @@ void Plugin::setParameterFloat(int index, float value)
 	case static_cast<int>(UiParams::UI_PARAM_DECIMATION) :
 		if (dspBitCrush)
 			(static_cast<BitCrusher*>(dspBitCrush))->setDecimation(value);
+		break;
+
+	case static_cast<int>(UiParams::UI_PARAM_CUTOFF) :
+		if (dspFilter)
+			(static_cast<Filter*>(dspFilter))->setCutoff(value);
+		break;
+
+	case static_cast<int>(UiParams::UI_PARAM_RESONANCE) :
+		if (dspFilter)
+			(static_cast<Filter*>(dspFilter))->setResonance(value);
 		break;
 
 	default: 
@@ -130,6 +154,18 @@ void Plugin::getParameterFloat(int index, float * value, char * valuestr)
 		*value = (static_cast<BitCrusher*>(dspBitCrush))->getDecimation();
 		if (valuestr)
 			sprintf(valuestr, "%.1f dB", (static_cast<BitCrusher*>(dspBitCrush))->getDecimation());
+		break;
+
+	case static_cast<int>(UiParams::UI_PARAM_CUTOFF) :
+		*value = (static_cast<Filter*>(dspFilter))->getCutoff();
+		if (valuestr)
+			sprintf(valuestr, "%.1f dB", (static_cast<Filter*>(dspFilter))->getCutoff());
+		break;
+
+	case static_cast<int>(UiParams::UI_PARAM_RESONANCE) :
+		*value = (static_cast<Filter*>(dspFilter))->getResonance();
+		if (valuestr)
+			sprintf(valuestr, "%.1f dB", (static_cast<Filter*>(dspFilter))->getResonance());
 		break;
 
 	default:

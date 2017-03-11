@@ -1,5 +1,4 @@
 #include "MathLib.h"
-const float x = 10.0f;
 
 namespace MathLib
 {
@@ -13,7 +12,7 @@ namespace MathLib
 		return (value_lin <= MinGain_lin) ? MinGain_dB : 20.0f * log10f(value_lin);
 	}
 
-	float MathLib::GetRandomFloat()
+	float GetRandomFloat()
 	{
 		return (static_cast<float>(rand() % 32768) / 16384.0f - 1.0f);
 	}

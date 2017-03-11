@@ -11,8 +11,8 @@ extern "C"
 
 FMOD_RESULT F_CALLBACK CreateCallback(FMOD_DSP_STATE *dsp);
 FMOD_RESULT F_CALLBACK ReleaseCallback(FMOD_DSP_STATE *dsp_state);
-FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE *dsp, FMOD_BOOL inputsidle, unsigned int length, FMOD_CHANNELMASK inmask, int inchannels, FMOD_SPEAKERMODE speakermode);
-FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp, float *inBuffer, float *outBuffer, unsigned int length, int inchannels, int *outchannels);
+FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE *dsp, FMOD_BOOL inputsidle, unsigned int length, FMOD_CHANNELMASK inmask, int channels, FMOD_SPEAKERMODE speakermode);
+FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp, float *inBuffer, float *outBuffer, unsigned int length, int channels, int *outchannels);
 FMOD_RESULT F_CALLBACK ResetCallback(FMOD_DSP_STATE *dsp);
 FMOD_RESULT F_CALLBACK SetParameterFloat(FMOD_DSP_STATE *dsp, int index, float value);
 FMOD_RESULT F_CALLBACK GetParameterFloat(FMOD_DSP_STATE *dsp, int index, float *value, char *valuestr);
@@ -105,8 +105,26 @@ extern "C"
 			true);
 
 		// CUTOFF
+		FMOD_DSP_INIT_PARAMDESC_FLOAT(
+			p_cutoff,
+			"Cutoff",
+			"hz",
+			"Lowpass cutoff frequency in hz.   1.0 to output 22000.0.  Default = 5000.0.",
+			10.0f,
+			22000.0f,
+			22000.0f,
+			false);
 
 		// RESONANCE
+		FMOD_DSP_INIT_PARAMDESC_FLOAT(
+			p_resonance,
+			"Resonance",
+			"",
+			"Lowpass resonance Q value. 1.0 to 10.0.  Default = 1.0.",
+			1.0f,
+			10.0f,
+			1.0f,
+			false);
 
 		// DISTORTION
 		FMOD_DSP_INIT_PARAMDESC_FLOAT(

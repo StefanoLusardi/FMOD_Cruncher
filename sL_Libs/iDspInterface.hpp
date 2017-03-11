@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MathLib.h"
+#include <vector>
 
 struct iDspParams
 {
