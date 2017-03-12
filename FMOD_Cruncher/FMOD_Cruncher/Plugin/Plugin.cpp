@@ -61,6 +61,11 @@ void Plugin::Process(float * inBuffer, float * outBuffer, unsigned int length, i
 	dspFilter->ProcessAudioBuffer(&bufDistortion[0], outBuffer, length, channels);
 }
 
+void Plugin::Bypass(float *inBuffer, float *outBuffer, unsigned int length, int channels)
+{
+	memcpy(outBuffer, inBuffer, sizeof(float) * length * channels);
+}
+
 void Plugin::Reset()
 {
 	if (dspGain)
@@ -87,6 +92,16 @@ void Plugin::Reset()
 	bufGain.clear();
 	bufNoise.clear();
 	bufDistortion.clear();
+}
+
+bool Plugin::getBypass()
+{
+	return mBypass;
+}
+
+void Plugin::setBypass(bool bypass)
+{
+	mBypass = bypass;
 }
 
 void Plugin::setParameterFloat(int index, float value)
@@ -121,6 +136,10 @@ void Plugin::setParameterFloat(int index, float value)
 	case static_cast<int>(UiParams::UI_PARAM_RESONANCE) :
 		if (dspFilter)
 			(static_cast<Filter*>(dspFilter))->setResonance(value);
+		break;
+
+	case static_cast<int>(UiParams::UI_PARAM_BYPASS) :
+		this->setBypass(static_cast<bool>(value));
 		break;
 
 	default: 
@@ -166,6 +185,12 @@ void Plugin::getParameterFloat(int index, float * value, char * valuestr)
 		*value = (static_cast<Filter*>(dspFilter))->getResonance();
 		if (valuestr)
 			sprintf(valuestr, "%.1f dB", (static_cast<Filter*>(dspFilter))->getResonance());
+		break;
+
+	case static_cast<int>(UiParams::UI_PARAM_BYPASS) :
+		*value = this->getBypass();
+		if (valuestr)
+			sprintf(valuestr, "%d", this->getBypass());
 		break;
 
 	default:

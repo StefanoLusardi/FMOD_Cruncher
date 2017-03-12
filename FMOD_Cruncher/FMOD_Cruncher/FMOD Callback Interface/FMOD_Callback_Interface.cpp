@@ -3,7 +3,7 @@
 
 FMOD_RESULT F_CALLBACK CreateCallback(FMOD_DSP_STATE *dsp_state)
 {
-	Plugin *dsp = (Plugin *)FMOD_DSP_STATE_MEMALLOC(dsp_state, sizeof(Plugin), FMOD_MEMORY_NORMAL, "Plugin");
+	Plugin *dsp = (Plugin*)FMOD_DSP_STATE_MEMALLOC(dsp_state, sizeof(Plugin), FMOD_MEMORY_NORMAL, "Plugin");
 	if (!dsp)
 		return FMOD_ERR_MEMORY;
 	dsp_state->plugindata = dsp;
@@ -31,8 +31,10 @@ FMOD_RESULT F_CALLBACK ReleaseCallback(FMOD_DSP_STATE *dsp_state)
 */
 /*==========================================================================================================================================================*/
 
-FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE * /*dsp_state*/, FMOD_BOOL inputsidle, unsigned int /*length*/, FMOD_CHANNELMASK /*inmask*/, int /*channels*/, FMOD_SPEAKERMODE /*speakermode*/)
-{
+
+
+//FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE * /dsp_state*/, FMOD_BOOL inputsidle, unsigned int /*length*/, FMOD_CHANNELMASK /*inmask*/, int /*channels*/, FMOD_SPEAKERMODE /*speakermode*/)
+/*{
 	//Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
 	if (inputsidle)
 		return FMOD_ERR_DSP_DONTPROCESS;
@@ -43,6 +45,35 @@ FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp_state, float *inBuffer, 
 {
 	Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
 	dsp->Process(inBuffer, outBuffer, length, channels);
+	return FMOD_OK;
+}
+*/
+
+FMOD_RESULT F_CALLBACK ProcessCallback(FMOD_DSP_STATE *dsp_state, unsigned int length, const FMOD_DSP_BUFFER_ARRAY *inbufferarray, FMOD_DSP_BUFFER_ARRAY *outbufferarray, FMOD_BOOL /*inputsidle*/, FMOD_DSP_PROCESS_OPERATION op)
+{
+	Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
+	if (op == FMOD_DSP_PROCESS_QUERY)
+	{
+		if (outbufferarray && inbufferarray)
+		{
+			outbufferarray[0].bufferchannelmask[0] = inbufferarray[0].bufferchannelmask[0];
+			outbufferarray[0].buffernumchannels[0] = inbufferarray[0].buffernumchannels[0];
+			outbufferarray[0].speakermode = inbufferarray[0].speakermode;
+		}
+	}
+	else
+	{
+		// Check if bypass is active before processing audio data.
+		if (dsp->getBypass())
+		{
+			dsp->Bypass(inbufferarray[0].buffers[0], outbufferarray[0].buffers[0], length, inbufferarray[0].buffernumchannels[0]);
+			return FMOD_OK;
+		}
+		// Process audio data.
+		dsp->Process(inbufferarray[0].buffers[0], outbufferarray[0].buffers[0], length, inbufferarray[0].buffernumchannels[0]); // input and output channels count match for this effect
+		return FMOD_OK;
+		
+	}
 	return FMOD_OK;
 }
 

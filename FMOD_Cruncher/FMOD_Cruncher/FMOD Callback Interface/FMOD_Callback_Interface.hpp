@@ -11,8 +11,9 @@ extern "C"
 
 FMOD_RESULT F_CALLBACK CreateCallback(FMOD_DSP_STATE *dsp);
 FMOD_RESULT F_CALLBACK ReleaseCallback(FMOD_DSP_STATE *dsp_state);
-FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE *dsp, FMOD_BOOL inputsidle, unsigned int length, FMOD_CHANNELMASK inmask, int channels, FMOD_SPEAKERMODE speakermode);
-FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp, float *inBuffer, float *outBuffer, unsigned int length, int channels, int *outchannels);
+//FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE *dsp, FMOD_BOOL inputsidle, unsigned int length, FMOD_CHANNELMASK inmask, int channels, FMOD_SPEAKERMODE speakermode);
+//FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp, float *inBuffer, float *outBuffer, unsigned int length, int channels, int *outchannels);
+FMOD_RESULT F_CALLBACK ProcessCallback(FMOD_DSP_STATE *dsp_state, unsigned int length, const FMOD_DSP_BUFFER_ARRAY *inbufferarray, FMOD_DSP_BUFFER_ARRAY *outbufferarray, FMOD_BOOL inputsidle, FMOD_DSP_PROCESS_OPERATION op);
 FMOD_RESULT F_CALLBACK ResetCallback(FMOD_DSP_STATE *dsp);
 FMOD_RESULT F_CALLBACK SetParameterFloat(FMOD_DSP_STATE *dsp, int index, float value);
 FMOD_RESULT F_CALLBACK GetParameterFloat(FMOD_DSP_STATE *dsp, int index, float *value, char *valuestr);
@@ -34,8 +35,8 @@ FMOD_DSP_DESCRIPTION pluginDescription =
 	CreateCallback,          // FMOD_DSP_CREATECALLBACK             create;             
 	ReleaseCallback,         // FMOD_DSP_RELEASECALLBACK            release;            
 	ResetCallback,           // FMOD_DSP_RESETCALLBACK              reset;              
-	ReadCallback,            // FMOD_DSP_READ_CALLBACK              read;               
-	0,					     // FMOD_DSP_PROCESS_CALLBACK           process;            
+	0,//ReadCallback,            // FMOD_DSP_READ_CALLBACK              read;               
+	ProcessCallback,					     // FMOD_DSP_PROCESS_CALLBACK           process;            
 	0,                       // FMOD_DSP_SETPOSITIONCALLBACK        setposition;        
 	static_cast<int>(UiParams::PLUGIN_NUM_PARAMS),	// int								   numparameters;    
 	pluginPrameters,		 // FMOD_DSP_PARAMETER_DESC           **paramdesc;          
@@ -47,7 +48,7 @@ FMOD_DSP_DESCRIPTION pluginDescription =
 	GetParameterInt,		 // FMOD_DSP_GETPARAM_INT_CALLBACK      getparameterint;    
 	0,//GetParameterBool,    // FMOD_DSP_GETPARAM_BOOL_CALLBACK     getparameterbool;   
 	0,                       // FMOD_DSP_GETPARAM_DATA_CALLBACK     getparameterdata;   
-	ShouldIProcessCallback,  // FMOD_DSP_SHOULDIPROCESS             shouldiprocess;     
+	0,//ShouldIProcessCallback,  // FMOD_DSP_SHOULDIPROCESS             shouldiprocess;     
 	0,                       // void                               *userdata;
 	SysRegister,             // FMOD_DSP_SYSTEM_REGISTER_CALLBACK   sys_register;
 	SysDeregister,           // FMOD_DSP_SYSTEM_DEREGISTER_CALLBACK sys_deregister;
@@ -135,9 +136,18 @@ extern "C"
 			0.05f, // Min
 			1.0f, // Max
 			0.0f, // Default
-			false);
+			true);
 
 		// BYPASS
+		FMOD_DSP_INIT_PARAMDESC_FLOAT(
+			p_bypass,
+			"Bypass",
+			"",
+			"Plugin Bypass. True or False. Default = false",
+			0.0f, // Min
+			1.0f, // Max
+			0.0f, // Default
+			false);
 
 		return &pluginDescription;
 	}

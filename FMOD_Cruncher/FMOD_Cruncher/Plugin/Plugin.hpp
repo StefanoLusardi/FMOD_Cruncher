@@ -15,7 +15,8 @@
 class Plugin // : iPluginInterface
 {
 public:
-	Plugin() :	dspGain(nullptr), 
+	Plugin() :	mBypass(false),
+				dspGain(nullptr), 
 				dspNoise(nullptr), 
 				dspDistortion(nullptr),
 				dspBitCrush(nullptr),
@@ -25,7 +26,11 @@ public:
 	void Create();
 	void Release();
 	void Process(float *inBuffer, float *outBuffer, unsigned int length, int channels);
+	void Bypass(float *inBuffer, float *outBuffer, unsigned int length, int channels);
 	void Reset();
+
+	bool getBypass();
+	void setBypass(bool);
 
 	void setParameterFloat(int index, float value);
 	void getParameterFloat(int index, float *value, char *valuestr);
@@ -43,5 +48,7 @@ private:
 	std::vector<float> bufNoise;
 	std::vector<float> bufBitCrusher;
 	std::vector<float> bufDistortion;
+
+	bool mBypass;
 };
 
