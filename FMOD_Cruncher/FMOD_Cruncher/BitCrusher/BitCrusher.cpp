@@ -2,23 +2,19 @@
 
 BitCrusher::BitCrusher()
 {
-	params = new BitCrusherParams();
 	BitCrusher::Reset();
 }
 
 BitCrusher::~BitCrusher()
 {
-	delete params;
 }
 
 void BitCrusher::ProcessAudioBuffer(float * inBuffer, float * outBuffer, unsigned int length, int channels)
 {
 	unsigned int samples = length * channels;
-	params->bitDepth = mBits;
-	params->decimationRate = mDecimation;
 	while (samples--)
 	{
-		*outBuffer++ = ProcessAudioSample(*inBuffer++, params);
+		*outBuffer++ = ProcessAudioSample(*inBuffer++);
 	}
 }
 
@@ -29,20 +25,20 @@ void BitCrusher::ProcessAudioChannel(float * inBuffer, float * outBuffer, unsign
 	{
 		for (unsigned int ch = 0; ch < static_cast<unsigned int>(channels); ch++)
 		{
-			*outBuffer++ = ProcessAudioSample(*inBuffer++, params, ch);
+			*outBuffer++ = ProcessAudioSample(*inBuffer++, ch);
 		}
 	}
 }
 
-inline float BitCrusher::ProcessAudioSample(float inSample, iDspParams * params, unsigned int channel)
+inline float BitCrusher::ProcessAudioSample(float inSample, unsigned int channel)
 {
-	float rate = static_cast<BitCrusherParams*>(params)->decimationRate;
+	float rate = getDecimation();
 	mPhasor += rate;
 
 	if (mPhasor >= 1.0f)
 	{
 		mPhasor -= 1.0f; 
-		int bits = static_cast<BitCrusherParams*>(params)->bitDepth;
+		int bits = getBits();
 		float step = 1 << bits;
 		return int(inSample * step) / step;
 	}

@@ -11,16 +11,12 @@ extern "C"
 
 FMOD_RESULT F_CALLBACK CreateCallback(FMOD_DSP_STATE *dsp);
 FMOD_RESULT F_CALLBACK ReleaseCallback(FMOD_DSP_STATE *dsp_state);
-//FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE *dsp, FMOD_BOOL inputsidle, unsigned int length, FMOD_CHANNELMASK inmask, int channels, FMOD_SPEAKERMODE speakermode);
-//FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp, float *inBuffer, float *outBuffer, unsigned int length, int channels, int *outchannels);
 FMOD_RESULT F_CALLBACK ProcessCallback(FMOD_DSP_STATE *dsp_state, unsigned int length, const FMOD_DSP_BUFFER_ARRAY *inbufferarray, FMOD_DSP_BUFFER_ARRAY *outbufferarray, FMOD_BOOL inputsidle, FMOD_DSP_PROCESS_OPERATION op);
 FMOD_RESULT F_CALLBACK ResetCallback(FMOD_DSP_STATE *dsp);
 FMOD_RESULT F_CALLBACK SetParameterFloat(FMOD_DSP_STATE *dsp, int index, float value);
 FMOD_RESULT F_CALLBACK GetParameterFloat(FMOD_DSP_STATE *dsp, int index, float *value, char *valuestr);
 FMOD_RESULT F_CALLBACK SetParameterInt(FMOD_DSP_STATE *dsp, int index, int value);
 FMOD_RESULT F_CALLBACK GetParameterInt(FMOD_DSP_STATE *dsp, int index, int *value, char *valuestr);
-//FMOD_RESULT F_CALLBACK SetParameterBool(FMOD_DSP_STATE *dsp, int index, bool value); //FMOD_BOOL
-//FMOD_RESULT F_CALLBACK GetParameterBool(FMOD_DSP_STATE *dsp, int index, bool *value, char *valuestr); //FMOD_BOOL
 FMOD_RESULT F_CALLBACK SysRegister(FMOD_DSP_STATE *dsp_state);
 FMOD_RESULT F_CALLBACK SysDeregister(FMOD_DSP_STATE *dsp_state);
 FMOD_RESULT F_CALLBACK SysMix(FMOD_DSP_STATE *dsp_state, int stage);
@@ -35,20 +31,20 @@ FMOD_DSP_DESCRIPTION pluginDescription =
 	CreateCallback,          // FMOD_DSP_CREATECALLBACK             create;             
 	ReleaseCallback,         // FMOD_DSP_RELEASECALLBACK            release;            
 	ResetCallback,           // FMOD_DSP_RESETCALLBACK              reset;              
-	0,//ReadCallback,            // FMOD_DSP_READ_CALLBACK              read;               
-	ProcessCallback,					     // FMOD_DSP_PROCESS_CALLBACK           process;            
+	0,						 // FMOD_DSP_READ_CALLBACK              read;               
+	ProcessCallback,		 // FMOD_DSP_PROCESS_CALLBACK           process;            
 	0,                       // FMOD_DSP_SETPOSITIONCALLBACK        setposition;        
 	static_cast<int>(UiParams::PLUGIN_NUM_PARAMS),	// int								   numparameters;    
 	pluginPrameters,		 // FMOD_DSP_PARAMETER_DESC           **paramdesc;          
 	SetParameterFloat,		 // FMOD_DSP_SETPARAM_FLOAT_CALLBACK    setparameterfloat;  
 	SetParameterInt,		 // FMOD_DSP_SETPARAM_INT_CALLBACK      setparameterint;    
-	0,//SetParameterBool,    // FMOD_DSP_SETPARAM_BOOL_CALLBACK     setparameterbool;   
+	0,						 // FMOD_DSP_SETPARAM_BOOL_CALLBACK     setparameterbool;   
 	0,                       // FMOD_DSP_SETPARAM_DATA_CALLBACK     setparameterdata;   
 	GetParameterFloat,		 // FMOD_DSP_GETPARAM_FLOAT_CALLBACK    getparameterfloat;  
 	GetParameterInt,		 // FMOD_DSP_GETPARAM_INT_CALLBACK      getparameterint;    
-	0,//GetParameterBool,    // FMOD_DSP_GETPARAM_BOOL_CALLBACK     getparameterbool;   
+	0,						 // FMOD_DSP_GETPARAM_BOOL_CALLBACK     getparameterbool;   
 	0,                       // FMOD_DSP_GETPARAM_DATA_CALLBACK     getparameterdata;   
-	0,//ShouldIProcessCallback,  // FMOD_DSP_SHOULDIPROCESS             shouldiprocess;     
+	0,						 // FMOD_DSP_SHOULDIPROCESS             shouldiprocess;     
 	0,                       // void                               *userdata;
 	SysRegister,             // FMOD_DSP_SYSTEM_REGISTER_CALLBACK   sys_register;
 	SysDeregister,           // FMOD_DSP_SYSTEM_DEREGISTER_CALLBACK sys_deregister;

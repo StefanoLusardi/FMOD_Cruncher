@@ -90,14 +90,14 @@ void Filter::ProcessAudioChannel(float* inBuffer, float* outBuffer, unsigned len
 {
 	for (unsigned int sample = 0; sample < length; sample++)
 	{
-		for (unsigned int ch = 0; ch < channels; ch++)
+		for (int ch = 0; ch < channels; ch++)
 		{
-			*outBuffer++ = ProcessAudioSample(*inBuffer++, nullptr, ch);
+			*outBuffer++ = ProcessAudioSample(*inBuffer++, ch);
 		}
 	}
 }
 
-inline float Filter::ProcessAudioSample(float input, iDspParams* /*params*/, unsigned int channel)
+inline float Filter::ProcessAudioSample(float input, unsigned int channel)
 {
 	float *history1, *history2, *coef_ptr;
 	float output, new_hist;
@@ -224,7 +224,7 @@ void Filter::Bilinear(float a0, float a1, float a2, float b0, float b1, float b2
 
 void Filter::Prewarp(float* /*a0*/, float *a1, float *a2, float fc, float fs)
 {
-	double wp = 2.0f * fs * std::tan(MathLib::Pi * fc / fs);
+	float wp = 2.0f * fs * std::tan(MathLib::Pi * fc / fs);
 
 	*a2 = (*a2) / (wp * wp);
 	*a1 = (*a1) / wp;

@@ -2,14 +2,12 @@
 
 Gain::Gain()
 {
-	params = new GainParams();
 	mTargetGain = MathLib::dBToLin(MathLib::ZeroGain_dB);
 	Gain::Reset();
 }
 
 Gain::~Gain()
 {
-	delete params;
 }
 
 void Gain::ProcessAudioBuffer(float* inBuffer, float* outBuffer, unsigned int length, int channels)
@@ -24,10 +22,10 @@ void Gain::ProcessAudioBuffer(float* inBuffer, float* outBuffer, unsigned int le
 			if (--mInterpolationSamples)
 			{
 				processGain += deltaGain;
+				mCurrentGain = processGain;
 				for (int i = 0; i < channels; ++i)
 				{
-					params->gain = processGain;
-					*outBuffer++ = ProcessAudioSample(*inBuffer++, params); 
+					*outBuffer++ = ProcessAudioSample(*inBuffer++); 
 				}
 			}
 			else
@@ -40,10 +38,9 @@ void Gain::ProcessAudioBuffer(float* inBuffer, float* outBuffer, unsigned int le
 	}
 
 	unsigned int samples = length * channels;
-	params->gain = processGain;
 	while (samples--)
 	{		
-		*outBuffer++ = ProcessAudioSample(*inBuffer++, params);		
+		*outBuffer++ = ProcessAudioSample(*inBuffer++);		
 	}
 	mCurrentGain = processGain;
 }
@@ -53,16 +50,16 @@ void Gain::ProcessAudioChannel(float * inBuffer, float * outBuffer, unsigned int
 {
 	for (unsigned int sample = 0; sample < length; sample++)
 	{
-		for (unsigned int ch = 0; ch < static_cast<unsigned int>(channels); ch++)
+		for (int ch = 0; ch < channels; ch++)
 		{
-			*outBuffer++ = ProcessAudioSample(*inBuffer++, params, ch);
+			*outBuffer++ = ProcessAudioSample(*inBuffer++, ch);
 		}
 	}
 }
 
-inline float Gain::ProcessAudioSample(float inSample, iDspParams* params, unsigned int /*channel*/)
+inline float Gain::ProcessAudioSample(float inSample, unsigned int /*channel*/)
 {
-	return inSample * (static_cast<GainParams*>(params)->gain);
+	return inSample * getGain();
 }
 
 void Gain::Reset()

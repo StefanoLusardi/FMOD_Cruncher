@@ -2,14 +2,12 @@
 
 Distortion::Distortion()
 {
-	params = new DistortionParams();
 	mTargetLevel = 1;
 	Distortion::Reset();
 }
 
 Distortion::~Distortion()
 {
-	delete params;
 }
 
 void Distortion::ProcessAudioBuffer(float * inBuffer, float * outBuffer, unsigned int length, int channels)
@@ -24,10 +22,10 @@ void Distortion::ProcessAudioBuffer(float * inBuffer, float * outBuffer, unsigne
 			if (--mInterpolationSamples)
 			{
 				processLevel += deltaGain;
+				mCurrentLevel = processLevel;
 				for (int i = 0; i < channels; ++i)
 				{
-					params->level = processLevel;
-					*outBuffer++ = ProcessAudioSample(*inBuffer++, params);
+					*outBuffer++ = ProcessAudioSample(*inBuffer++);
 				}
 			}
 			else
@@ -40,10 +38,9 @@ void Distortion::ProcessAudioBuffer(float * inBuffer, float * outBuffer, unsigne
 	}
 
 	unsigned int samples = length * channels;
-	params->level = processLevel;
 	while (samples--)
 	{
-		*outBuffer++ = ProcessAudioSample(*inBuffer++, params);
+		*outBuffer++ = ProcessAudioSample(*inBuffer++);
 	}
 	mCurrentLevel = processLevel;
 }
@@ -55,21 +52,21 @@ void Distortion::ProcessAudioChannel(float * inBuffer, float * outBuffer, unsign
 	{
 		for (unsigned int ch = 0; ch < static_cast<unsigned int>(channels); ch++)
 		{
-			*outBuffer++ = ProcessAudioSample(*inBuffer++, params, ch);
+			*outBuffer++ = ProcessAudioSample(*inBuffer++, ch);
 		}
 	}
 }
 
-inline float Distortion::ProcessAudioSample(float inSample, iDspParams * params, unsigned int channel)
+inline float Distortion::ProcessAudioSample(float inSample, unsigned int channel)
 {
-	float threshold = static_cast<DistortionParams*>(params)->level;
+	float threshold = getLevel();
 
 	// Positive hard clipping
 	if (inSample > threshold)
 		return threshold;
 
 	// Negative hard clipping
-	if (inSample  < -threshold)
+	if (inSample < -threshold)
 		return -threshold;
 
 	// No clipping

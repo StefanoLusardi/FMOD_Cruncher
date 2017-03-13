@@ -227,11 +227,3 @@ void Plugin::getParameterInt(int index, int * value, char * valuestr)
 	}
 }
 
-//void Plugin::setParameterBool(int index, bool value)
-//{
-//}
-//
-//void Plugin::getParameterBool(int index, bool * value, char * valuestr)
-//{
-//}
-

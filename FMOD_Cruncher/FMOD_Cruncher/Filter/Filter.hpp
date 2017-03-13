@@ -18,7 +18,7 @@ public:
 
 	void ProcessAudioBuffer(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
 	void ProcessAudioChannel(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
-	inline float ProcessAudioSample(float inSample, iDspParams* params, unsigned int channel = 0) override;
+	inline float ProcessAudioSample(float inSample, unsigned int channel = 0) override;
 
 	void Release() override { };
 	void Reset() override;

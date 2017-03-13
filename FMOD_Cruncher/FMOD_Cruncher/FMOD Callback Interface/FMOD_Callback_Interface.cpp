@@ -4,7 +4,7 @@
 FMOD_RESULT F_CALLBACK CreateCallback(FMOD_DSP_STATE *dsp_state)
 {
 	Plugin *dsp = (Plugin*)FMOD_DSP_STATE_MEMALLOC(dsp_state, sizeof(Plugin), FMOD_MEMORY_NORMAL, "Plugin");
-	if (!dsp)
+	if (!dsp) 
 		return FMOD_ERR_MEMORY;
 	dsp_state->plugindata = dsp;
 	dsp->Create();
@@ -24,30 +24,6 @@ FMOD_RESULT F_CALLBACK ReleaseCallback(FMOD_DSP_STATE *dsp_state)
 	FMOD_DSP_STATE_MEMFREE(dsp_state, dsp, FMOD_MEMORY_NORMAL, "Plugin");
 	return FMOD_OK;
 }
-
-/* TODO: replace ShouldIProcessCallback and ReadCallback
-*	with FMOD_DSP_PROCESS_CALLBACK to save CPU and introduce
-*	plugin bypass button.
-*/
-/*==========================================================================================================================================================*/
-
-
-
-//FMOD_RESULT F_CALLBACK ShouldIProcessCallback(FMOD_DSP_STATE * /dsp_state*/, FMOD_BOOL inputsidle, unsigned int /*length*/, FMOD_CHANNELMASK /*inmask*/, int /*channels*/, FMOD_SPEAKERMODE /*speakermode*/)
-/*{
-	//Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
-	if (inputsidle)
-		return FMOD_ERR_DSP_DONTPROCESS;
-	return FMOD_OK;
-}
-
-FMOD_RESULT F_CALLBACK ReadCallback(FMOD_DSP_STATE *dsp_state, float *inBuffer, float *outBuffer, unsigned int length, int channels, int *outchannels)
-{
-	Plugin *dsp = static_cast<Plugin*>(dsp_state->plugindata);
-	dsp->Process(inBuffer, outBuffer, length, channels);
-	return FMOD_OK;
-}
-*/
 
 FMOD_RESULT F_CALLBACK ProcessCallback(FMOD_DSP_STATE *dsp_state, unsigned int length, const FMOD_DSP_BUFFER_ARRAY *inbufferarray, FMOD_DSP_BUFFER_ARRAY *outbufferarray, FMOD_BOOL /*inputsidle*/, FMOD_DSP_PROCESS_OPERATION op)
 {
@@ -71,13 +47,10 @@ FMOD_RESULT F_CALLBACK ProcessCallback(FMOD_DSP_STATE *dsp_state, unsigned int l
 		}
 		// Process audio data.
 		dsp->Process(inbufferarray[0].buffers[0], outbufferarray[0].buffers[0], length, inbufferarray[0].buffernumchannels[0]); // input and output channels count match for this effect
-		return FMOD_OK;
-		
+		return FMOD_OK;		
 	}
 	return FMOD_OK;
 }
-
-/*==========================================================================================================================================================*/
 
 FMOD_RESULT F_CALLBACK SetParameterFloat(FMOD_DSP_STATE *dsp_state, int index, float value)
 {
