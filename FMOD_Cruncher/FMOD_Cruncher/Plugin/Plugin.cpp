@@ -2,44 +2,44 @@
 
 void Plugin::Create()
 {
-	dspGain			= new Gain();
-	dspNoise		= new Noise();
-	dspDistortion	= new Distortion();
-	dspBitCrush		= new BitCrusher();
-	dspFilter		= new Filter();
+	dspGain = std::make_unique<Gain>();
+	dspNoise = std::make_unique<Noise>();
+	dspDistortion = std::make_unique<Distortion>();
+	dspBitCrush = std::make_unique<BitCrusher>();
+	dspFilter = std::make_unique<Filter>();
 }
 
 void Plugin::Release()
 {
-	if (dspGain)
-	{
-		dspGain->Release();
-		delete dspGain;
-	}
+	//if (dspGain)
+	//{
+	//	dspGain->Release();
+	//	delete dspGain;
+	//}
 
-	if (dspNoise)
-	{
-		dspNoise->Release();
-		delete dspNoise;
-	}
+	//if (dspNoise)
+	//{
+	//	dspNoise->Release();
+	//	delete dspNoise;
+	//}
 
-	if (dspDistortion)
-	{
-		dspDistortion->Release();
-		delete dspDistortion;
-	}
+	//if (dspDistortion)
+	//{
+	//	dspDistortion->Release();
+	//	delete dspDistortion;
+	//}
 
-	if (dspBitCrush)
-	{
-		dspBitCrush->Release();
-		delete dspBitCrush;
-	}	
+	//if (dspBitCrush)
+	//{
+	//	dspBitCrush->Release();
+	//	delete dspBitCrush;
+	//}	
 
-	if (dspFilter)
-	{
-		dspFilter->Release();
-		delete dspFilter;
-	}
+	//if (dspFilter)
+	//{
+	//	dspFilter->Release();
+	//	delete dspFilter;
+	//}
 }
 
 void Plugin::Process(float * inBuffer, float * outBuffer, unsigned int length, int channels)
@@ -68,26 +68,26 @@ void Plugin::Bypass(float *inBuffer, float *outBuffer, unsigned int length, int 
 
 void Plugin::Reset()
 {
-	if (dspGain)
-		delete dspGain;
+	//if (dspGain)
+	//	delete dspGain;
 
-	if (dspNoise)
-		delete dspNoise;
+	//if (dspNoise)
+	//	delete dspNoise;
 
-	if (dspDistortion)
-		delete dspDistortion;
+	//if (dspDistortion)
+	//	delete dspDistortion;
 
-	if (dspBitCrush)
-		delete dspBitCrush;
+	//if (dspBitCrush)
+	//	delete dspBitCrush;
 
-	if (dspFilter)
-		delete dspFilter;
+	//if (dspFilter)
+	//	delete dspFilter;
 
-	dspGain			= new Gain();
-	dspNoise		= new Noise();
-	dspDistortion	= new Distortion();
-	dspBitCrush		= new BitCrusher();
-	dspFilter		= new Filter();
+	dspGain = std::make_unique<Gain>();
+	dspNoise = std::make_unique<Noise>();
+	dspDistortion = std::make_unique<Distortion>();
+	dspBitCrush = std::make_unique<BitCrusher>();
+	dspFilter = std::make_unique<Filter>();
 
 	bufGain.clear();
 	bufNoise.clear();
@@ -110,32 +110,33 @@ void Plugin::setParameterFloat(int index, float value)
 	{
 	case static_cast<int>(UiParams::UI_PARAM_GAIN) :
 		if (dspGain)
-			(static_cast<Gain*>(dspGain))->setGain(value);
+			(static_cast<Gain*>(dspGain.get()))->setGain(value);
+			//(static_cast<Gain*>(dspGain))->setGain(value);
 		break;
 
 	case static_cast<int>(UiParams::UI_PARAM_NOISE_AMP) :
 		if (dspNoise)
-			(static_cast<Noise*>(dspNoise))->setAmp(value);
+			(static_cast<Noise*>(dspNoise.get()))->setAmp(value);
 		break;
 
 	case static_cast<int>(UiParams::UI_PARAM_DISTORTION) :
 		if (dspDistortion)
-			(static_cast<Distortion*>(dspDistortion))->setLevel(value);
+			(static_cast<Distortion*>(dspDistortion.get()))->setLevel(value);
 		break;
 				
 	case static_cast<int>(UiParams::UI_PARAM_DECIMATION) :
 		if (dspBitCrush)
-			(static_cast<BitCrusher*>(dspBitCrush))->setDecimation(value);
+			(static_cast<BitCrusher*>(dspBitCrush.get()))->setDecimation(value);
 		break;
 
 	case static_cast<int>(UiParams::UI_PARAM_CUTOFF) :
 		if (dspFilter)
-			(static_cast<Filter*>(dspFilter))->setCutoff(value);
+			(static_cast<Filter*>(dspFilter.get()))->setCutoff(value);
 		break;
 
 	case static_cast<int>(UiParams::UI_PARAM_RESONANCE) :
 		if (dspFilter)
-			(static_cast<Filter*>(dspFilter))->setResonance(value);
+			(static_cast<Filter*>(dspFilter.get()))->setResonance(value);
 		break;
 
 	case static_cast<int>(UiParams::UI_PARAM_BYPASS) :
@@ -152,39 +153,39 @@ void Plugin::getParameterFloat(int index, float * value, char * valuestr)
 	switch (index)
 	{
 	case static_cast<int>(UiParams::UI_PARAM_GAIN) :
-		*value = (static_cast<Gain*>(dspGain))->getGain();
+		*value = (static_cast<Gain*>(dspGain.get()))->getGain();
 		if (valuestr) 
-			sprintf(valuestr, "%.1f dB", (static_cast<Gain *>(dspGain))->getGain());
+			sprintf(valuestr, "%.1f dB", (static_cast<Gain *>(dspGain.get()))->getGain());
 		break;
 
 	case static_cast<int>(UiParams::UI_PARAM_NOISE_AMP) :
-		*value = (static_cast<Noise*>(dspNoise))->getAmp();
+		*value = (static_cast<Noise*>(dspNoise.get()))->getAmp();
 		if (valuestr)
-			sprintf(valuestr, "%.1f dB", (static_cast<Noise*>(dspNoise))->getAmp());
+			sprintf(valuestr, "%.1f dB", (static_cast<Noise*>(dspNoise.get()))->getAmp());
 		break;
 
 	case static_cast<int>(UiParams::UI_PARAM_DISTORTION) :
-		*value = (static_cast<Distortion*>(dspDistortion))->getLevel();
+		*value = (static_cast<Distortion*>(dspDistortion.get()))->getLevel();
 		if (valuestr)
-			sprintf(valuestr, "%.1f dB", (static_cast<Distortion*>(dspDistortion))->getLevel());
+			sprintf(valuestr, "%.1f dB", (static_cast<Distortion*>(dspDistortion.get()))->getLevel());
 		break;
 
 	case static_cast<int>(UiParams::UI_PARAM_DECIMATION) :
-		*value = (static_cast<BitCrusher*>(dspBitCrush))->getDecimation();
+		*value = (static_cast<BitCrusher*>(dspBitCrush.get()))->getDecimation();
 		if (valuestr)
-			sprintf(valuestr, "%.1f dB", (static_cast<BitCrusher*>(dspBitCrush))->getDecimation());
+			sprintf(valuestr, "%.1f dB", (static_cast<BitCrusher*>(dspBitCrush.get()))->getDecimation());
 		break;
 
 	case static_cast<int>(UiParams::UI_PARAM_CUTOFF) :
-		*value = (static_cast<Filter*>(dspFilter))->getCutoff();
+		*value = (static_cast<Filter*>(dspFilter.get()))->getCutoff();
 		if (valuestr)
-			sprintf(valuestr, "%.1f dB", (static_cast<Filter*>(dspFilter))->getCutoff());
+			sprintf(valuestr, "%.1f dB", (static_cast<Filter*>(dspFilter.get()))->getCutoff());
 		break;
 
 	case static_cast<int>(UiParams::UI_PARAM_RESONANCE) :
-		*value = (static_cast<Filter*>(dspFilter))->getResonance();
+		*value = (static_cast<Filter*>(dspFilter.get()))->getResonance();
 		if (valuestr)
-			sprintf(valuestr, "%.1f dB", (static_cast<Filter*>(dspFilter))->getResonance());
+			sprintf(valuestr, "%.1f dB", (static_cast<Filter*>(dspFilter.get()))->getResonance());
 		break;
 
 	case static_cast<int>(UiParams::UI_PARAM_BYPASS) :
@@ -204,7 +205,7 @@ void Plugin::setParameterInt(int index, int value)
 	{
 	case static_cast<int>(UiParams::UI_PARAM_BIT_DEPTH) :
 		if (dspBitCrush)
-			(static_cast<BitCrusher*>(dspBitCrush))->setBits(value);
+			(static_cast<BitCrusher*>(dspBitCrush.get()))->setBits(value);
 		break;
 
 	default: 
@@ -217,9 +218,9 @@ void Plugin::getParameterInt(int index, int * value, char * valuestr)
 	switch (index)
 	{
 	case static_cast<int>(UiParams::UI_PARAM_BIT_DEPTH) :
-		*value = (static_cast<BitCrusher*>(dspBitCrush))->getBits();
+		*value = (static_cast<BitCrusher*>(dspBitCrush.get()))->getBits();
 		if (valuestr)
-			sprintf(valuestr, "%d dB", (static_cast<BitCrusher *>(dspBitCrush))->getBits());
+			sprintf(valuestr, "%d dB", (static_cast<BitCrusher *>(dspBitCrush.get()))->getBits());
 		break;
 
 	default:

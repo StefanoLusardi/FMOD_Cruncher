@@ -9,6 +9,7 @@
 #include "../Distortion/Distortion.hpp"
 #include "../BitCrusher/BitCrusher.hpp"
 #include "../Filter/Filter.hpp"
+#include <memory>
 
 
 // TODO: Plugin Interface implementation??
@@ -38,11 +39,17 @@ public:
 	void getParameterInt(int index, int *value, char *valuestr);
 
 private:
-	iDspInterface* dspGain;
-	iDspInterface* dspNoise;
-	iDspInterface* dspBitCrush;
-	iDspInterface* dspDistortion;
-	iDspInterface* dspFilter;
+	//iDspInterface* dspGain;
+	//iDspInterface* dspNoise;
+	//iDspInterface* dspBitCrush;
+	//iDspInterface* dspDistortion;
+	//iDspInterface* dspFilter;
+
+	std::unique_ptr<iDspInterface> dspGain;
+	std::unique_ptr<iDspInterface> dspNoise;
+	std::unique_ptr<iDspInterface> dspBitCrush;
+	std::unique_ptr<iDspInterface> dspDistortion;
+	std::unique_ptr<iDspInterface> dspFilter;
 
 	std::vector<float> bufGain;
 	std::vector<float> bufNoise;
