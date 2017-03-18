@@ -9,39 +9,6 @@ void Plugin::Create()
 	dspFilter = std::make_unique<Filter>();
 }
 
-void Plugin::Release()
-{
-	//if (dspGain)
-	//{
-	//	dspGain->Release();
-	//	delete dspGain;
-	//}
-
-	//if (dspNoise)
-	//{
-	//	dspNoise->Release();
-	//	delete dspNoise;
-	//}
-
-	//if (dspDistortion)
-	//{
-	//	dspDistortion->Release();
-	//	delete dspDistortion;
-	//}
-
-	//if (dspBitCrush)
-	//{
-	//	dspBitCrush->Release();
-	//	delete dspBitCrush;
-	//}	
-
-	//if (dspFilter)
-	//{
-	//	dspFilter->Release();
-	//	delete dspFilter;
-	//}
-}
-
 void Plugin::Process(float * inBuffer, float * outBuffer, unsigned int length, int channels)
 {
 	int numSamples = length * channels;
@@ -61,28 +28,13 @@ void Plugin::Process(float * inBuffer, float * outBuffer, unsigned int length, i
 	dspFilter->ProcessAudioBuffer(&bufDistortion[0], outBuffer, length, channels);
 }
 
-void Plugin::Bypass(float *inBuffer, float *outBuffer, unsigned int length, int channels)
+void Plugin::Bypass(float *inBuffer, float *outBuffer, unsigned int length, int channels) const
 {
 	memcpy(outBuffer, inBuffer, sizeof(float) * length * channels);
 }
 
 void Plugin::Reset()
 {
-	//if (dspGain)
-	//	delete dspGain;
-
-	//if (dspNoise)
-	//	delete dspNoise;
-
-	//if (dspDistortion)
-	//	delete dspDistortion;
-
-	//if (dspBitCrush)
-	//	delete dspBitCrush;
-
-	//if (dspFilter)
-	//	delete dspFilter;
-
 	dspGain = std::make_unique<Gain>();
 	dspNoise = std::make_unique<Noise>();
 	dspDistortion = std::make_unique<Distortion>();

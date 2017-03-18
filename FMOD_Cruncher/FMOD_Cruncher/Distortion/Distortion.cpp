@@ -2,27 +2,31 @@
 
 Distortion::Distortion()
 {
-	mTargetLevel = 1;
+	mTargetLevel  = 1;
 	Distortion::Reset();
 }
 
 Distortion::~Distortion()
 {
+	int x = 0;
 }
 
 void Distortion::ProcessAudioBuffer(float * inBuffer, float * outBuffer, unsigned int length, int channels)
 {
-	float processLevel = mCurrentLevel;
+	float processLevel  = mCurrentLevel;
 
 	if (mInterpolationSamples)
 	{
-		float deltaGain = (mTargetLevel - mCurrentLevel) / mInterpolationSamples;
+		float deltaGain   = (mTargetLevel  - mCurrentLevel)  / mInterpolationSamples;
+
 		while (length)
 		{
 			if (--mInterpolationSamples)
 			{
-				processLevel += deltaGain;
-				mCurrentLevel = processLevel;
+				processLevel  += deltaGain;
+
+				mCurrentLevel  = processLevel;
+
 				for (int i = 0; i < channels; ++i)
 				{
 					*outBuffer++ = ProcessAudioSample(*inBuffer++);
@@ -30,7 +34,7 @@ void Distortion::ProcessAudioBuffer(float * inBuffer, float * outBuffer, unsigne
 			}
 			else
 			{
-				processLevel = mTargetLevel;
+				processLevel  = mTargetLevel;
 				break;
 			}
 			--length;
@@ -42,7 +46,7 @@ void Distortion::ProcessAudioBuffer(float * inBuffer, float * outBuffer, unsigne
 	{
 		*outBuffer++ = ProcessAudioSample(*inBuffer++);
 	}
-	mCurrentLevel = processLevel;
+	mCurrentLevel  = processLevel;
 }
 
 /* NOT USED*/
@@ -57,25 +61,26 @@ void Distortion::ProcessAudioChannel(float * inBuffer, float * outBuffer, unsign
 	}
 }
 
-inline float Distortion::ProcessAudioSample(float inSample, unsigned int channel)
+inline float Distortion::ProcessAudioSample(float inSample, unsigned int /*channel*/)
 {
 	float threshold = getLevel();
+	float sample = inSample;
 
 	// Positive hard clipping
-	if (inSample > threshold)
+	if (sample > threshold)
 		return threshold;
 
 	// Negative hard clipping
-	if (inSample < -threshold)
+	if (sample < -threshold)
 		return -threshold;
 
 	// No clipping
-	return inSample;
+	return sample;
 }
 
 void Distortion::Reset()
 {
-	mCurrentLevel = mTargetLevel;
+	mCurrentLevel  = mTargetLevel;
 	mInterpolationSamples = 0;
 }
 
@@ -86,7 +91,10 @@ float Distortion::getLevel()
 
 void Distortion::setLevel(float level)
 {
-	mTargetLevel = level;
+	/* Level value read from the UI is in range [0..1]
+	 * Here we perform a mapping from [0..1] to [1..0.25]
+	 */
+	mTargetLevel = 1 - level * 0.75f;
 	mInterpolationSamples = MathLib::InterpolationSamples;
 }
 

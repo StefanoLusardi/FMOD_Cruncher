@@ -16,20 +16,19 @@
 class Plugin // : iPluginInterface
 {
 public:
-	Plugin() :	mBypass(false),
-				dspGain(nullptr), 
+	Plugin() :	dspGain(nullptr),
 				dspNoise(nullptr), 
+				dspBitCrush(nullptr), 
 				dspDistortion(nullptr),
-				dspBitCrush(nullptr),
-				dspFilter(nullptr)
+				dspFilter(nullptr),
+				mBypass(false)
 	{ }
 
 	void Create();
-	void Release();
+	void Reset(); 
 	void Process(float *inBuffer, float *outBuffer, unsigned int length, int channels);
-	void Bypass(float *inBuffer, float *outBuffer, unsigned int length, int channels);
-	void Reset();
-
+	void Bypass(float *inBuffer, float *outBuffer, unsigned int length, int channels) const;
+	
 	bool getBypass();
 	void setBypass(bool);
 
@@ -39,12 +38,6 @@ public:
 	void getParameterInt(int index, int *value, char *valuestr);
 
 private:
-	//iDspInterface* dspGain;
-	//iDspInterface* dspNoise;
-	//iDspInterface* dspBitCrush;
-	//iDspInterface* dspDistortion;
-	//iDspInterface* dspFilter;
-
 	std::unique_ptr<iDspInterface> dspGain;
 	std::unique_ptr<iDspInterface> dspNoise;
 	std::unique_ptr<iDspInterface> dspBitCrush;

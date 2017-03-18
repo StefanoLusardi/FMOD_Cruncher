@@ -84,9 +84,9 @@ extern "C"
 			"BitDepth",
 			"",
 			"Bith Depth. 16 to 1. Default = 16",
-			1, 
-			16, 
-			16, 
+			1,   // Min
+			16,  // Max 
+			16,  // Default 
 			false,
 			nullptr);
 
@@ -96,9 +96,9 @@ extern "C"
 			"Decimation",
 			"",
 			"Sample Rate Divider. 1 to 50. Default = 1",
-			0.01f,
-			1.0f,
-			1.0f,
+			0.01f, // Min
+			1.0f,  // Max
+			1.0f,  // Default
 			true);
 
 		// CUTOFF
@@ -107,9 +107,9 @@ extern "C"
 			"Cutoff",
 			"hz",
 			"Lowpass cutoff frequency in hz.   1.0 to output 22000.0.  Default = 5000.0.",
-			10.0f,
-			22000.0f,
-			22000.0f,
+			10.0f,     // Min
+			22000.0f,  // Max
+			22000.0f,  // Default
 			false);
 
 		// RESONANCE
@@ -118,9 +118,9 @@ extern "C"
 			"Resonance",
 			"",
 			"Lowpass resonance Q value. 1.0 to 10.0.  Default = 1.0.",
-			1.0f,
-			10.0f,
-			1.0f,
+			1.0f,   // Min
+			10.0f,  // Max
+			1.0f,   // Default
 			false);
 
 		// DISTORTION
@@ -129,7 +129,7 @@ extern "C"
 			"Distortion",
 			"",
 			"Distortion Level. 0 to 1. Default = 0",
-			0.05f, // Min
+			0.0f, // Min
 			1.0f, // Max
 			0.0f, // Default
 			true);

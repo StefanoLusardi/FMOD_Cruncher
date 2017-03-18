@@ -16,12 +16,10 @@ public:
 	Filter();
 	~Filter();
 
+	void Reset() override;
 	void ProcessAudioBuffer(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
 	void ProcessAudioChannel(float *inBuffer, float *outBuffer, unsigned int length, int channels) override;
-	inline float ProcessAudioSample(float inSample, unsigned int channel = 0) override;
-
-	void Release() override { };
-	void Reset() override;
+	inline float ProcessAudioSample(float inSample, unsigned int channel = 0) override;	
 	
 	void szTransform(float *a0, float *a1, float *a2, float *b0, float *b1, float *b2, float fc, float fs, float *k, float *coef);
 	void Prewarp(float *a0, float *a1, float *a2, float fc, float fs); 

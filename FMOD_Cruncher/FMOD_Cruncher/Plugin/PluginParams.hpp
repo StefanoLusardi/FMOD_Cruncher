@@ -1,7 +1,7 @@
 #pragma once
 
 #define PLUGIN_NAME "sL Cruncher"
-#define PLUGIN_VERSION 0x00010000
+#define PLUGIN_VERSION 0x00020000
 
 enum class UiParams : int
 {
