@@ -7,7 +7,7 @@ FMOD_RESULT F_CALLBACK CreateCallback(FMOD_DSP_STATE *dsp_state)
 	if (!dsp) 
 		return FMOD_ERR_MEMORY;
 	dsp_state->plugindata = dsp;
-	dsp->Create();
+	dsp->Create(dsp_state);
 	return FMOD_OK;
 }
 

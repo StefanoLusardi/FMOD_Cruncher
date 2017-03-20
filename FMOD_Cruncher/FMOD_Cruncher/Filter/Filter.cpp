@@ -2,6 +2,31 @@
 
 Filter::Filter()
 {
+	mSampleRate = 48000; 
+	mTargetResonance = 1.0f;
+	mTargetCutoff = 22000.0f;
+
+	mProtoCoef[0].a0 = 1.0f;
+	mProtoCoef[0].a1 = 0;
+	mProtoCoef[0].a2 = 0;
+	mProtoCoef[0].b0 = 1.0f;
+	mProtoCoef[0].b1 = 0.765367f;
+	mProtoCoef[0].b2 = 1.0f;
+	mGainFactor[0] = 1.0f;
+
+	mProtoCoef[1].a0 = 1.0f;
+	mProtoCoef[1].a1 = 0;
+	mProtoCoef[1].a2 = 0;
+	mProtoCoef[1].b0 = 1.0f;
+	mProtoCoef[1].b1 = 1.847759f;
+	mProtoCoef[1].b2 = 1.0f;
+	mGainFactor[1] = 1.0f;
+
+	Filter::Reset();
+}
+
+Filter::Filter(int sampleRate) : mSampleRate(sampleRate)
+{
 	mTargetResonance = 1.0f;
 	mTargetCutoff = 22000.0f;
 
@@ -168,7 +193,6 @@ void Filter::UpdateState(float resonance, float cutoff)
 	float a0, a1, a2, b0, b1, b2;
 	float *coef;				
 	float filterGain = 1.0f;	
-	float sampleRate = 48000.0f;
 	std::vector<float> sectionsGain(2, 1.0f);
 
 	coef = mCoefficients + 1;		
@@ -183,7 +207,7 @@ void Filter::UpdateState(float resonance, float cutoff)
 		b1 = mProtoCoef[section].b1 / resonance;
 		b2 = mProtoCoef[section].b2;
 
-		szTransform(&a0, &a1, &a2, &b0, &b1, &b2, cutoff, sampleRate, &sectionsGain[section], coef);
+		szTransform(&a0, &a1, &a2, &b0, &b1, &b2, cutoff, static_cast<float>(mSampleRate), &sectionsGain[section], coef);
 
 		if (mGainFactor[section] != 0.0f)
 		{

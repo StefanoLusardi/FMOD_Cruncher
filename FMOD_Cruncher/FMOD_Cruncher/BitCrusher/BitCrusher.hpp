@@ -14,14 +14,15 @@ public:
 	inline float ProcessAudioSample(float inSample, unsigned int channel = 0) override;
 	
 
-	int  getBits();
-	void setBits(int);
+	float getSteps();		// Retrieve the amount of quantization steps (float)
+	void  setBits(int);		// Set the number of bits from the UI (int)
 
 	float getDecimation();
 	void  setDecimation(float);
 
 private:
-	int mBits;			// Bit depth: [15..1] 
-	float mDecimation;	// Sample rate divider: [1..0.01]
-	float mPhasor;
+	int   mBits;				// Bit depth: [15..1] 
+	float mQuantizationSteps;	// 2^(bitDepth)
+	float mDecimation;			// Sample rate divider: [1..0.01]
+	float mPhasor;				// Keep in range: [0..1]
 };

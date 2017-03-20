@@ -54,7 +54,7 @@ void Distortion::ProcessAudioChannel(float * inBuffer, float * outBuffer, unsign
 {
 	for (unsigned int sample = 0; sample < length; sample++)
 	{
-		for (unsigned int ch = 0; ch < static_cast<unsigned int>(channels); ch++)
+		for (int ch = 0; ch < channels; ch++)
 		{
 			*outBuffer++ = ProcessAudioSample(*inBuffer++, ch);
 		}

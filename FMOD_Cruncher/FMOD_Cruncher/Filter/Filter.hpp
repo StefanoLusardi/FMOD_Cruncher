@@ -14,6 +14,7 @@ class Filter : public iDspInterface
 {
 public:
 	Filter();
+	Filter(int sampleRate);
 	~Filter();
 
 	void Reset() override;
@@ -43,5 +44,6 @@ private:
 	float mCurrentResonance;
 	float mTargetResonance;
 	int   mInterpolationSamples;
+	int   mSampleRate;
 };
 

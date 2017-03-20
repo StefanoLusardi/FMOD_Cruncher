@@ -2,6 +2,9 @@
 
 BitCrusher::BitCrusher()
 {
+	mBits = 16;
+	mDecimation = 1;
+	mQuantizationSteps = 1 << mBits;
 	BitCrusher::Reset();
 }
 
@@ -23,44 +26,40 @@ void BitCrusher::ProcessAudioChannel(float * inBuffer, float * outBuffer, unsign
 {
 	for (unsigned int sample = 0; sample < length; sample++)
 	{
-		for (unsigned int ch = 0; ch < static_cast<unsigned int>(channels); ch++)
+		for (int ch = 0; ch < channels; ch++)
 		{
 			*outBuffer++ = ProcessAudioSample(*inBuffer++, ch);
 		}
 	}
 }
 
-inline float BitCrusher::ProcessAudioSample(float inSample, unsigned int channel)
-{
-	float rate = getDecimation();
-	mPhasor += rate;
+inline float BitCrusher::ProcessAudioSample(float inSample, unsigned int /*channel*/)
+{ 
+	mPhasor += getDecimation();
 
 	if (mPhasor >= 1.0f)
 	{
 		mPhasor -= 1.0f; 
-		int bits = getBits();
-		float step = 1 << bits;
-		return int(inSample * step) / step;
+		float quantizationSteps = getSteps();
+		return int(inSample * quantizationSteps) / quantizationSteps;
 	}
 	return 0.0f;
 }
 
 void BitCrusher::Reset()
 {
-	mBits = 15;
-	mDecimation = 1;
 	mPhasor = 0.0f;
 }
 
-int BitCrusher::getBits()
+float BitCrusher::getSteps()
 {
-	return mBits;
+	return mQuantizationSteps;
 }
 
 void BitCrusher::setBits(int bitDepth)
 {
 	mBits = bitDepth;
-	//mBits = 1 << (bitDepth - 1);
+	mQuantizationSteps = 1 << bitDepth;
 }
 
 float BitCrusher::getDecimation()

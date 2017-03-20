@@ -13,7 +13,7 @@
 
 
 // TODO: Plugin Interface implementation??
-class Plugin // : iPluginInterface
+class Plugin// : iPluginInterface
 {
 public:
 	Plugin() :	dspGain(nullptr),
@@ -25,6 +25,7 @@ public:
 	{ }
 
 	void Create();
+	void Create(FMOD_DSP_STATE*);
 	void Reset(); 
 	void Process(float *inBuffer, float *outBuffer, unsigned int length, int channels);
 	void Bypass(float *inBuffer, float *outBuffer, unsigned int length, int channels) const;
